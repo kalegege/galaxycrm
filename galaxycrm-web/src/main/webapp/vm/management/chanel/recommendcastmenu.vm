@@ -1,0 +1,77 @@
+##分页
+#set ($Action=${basePath}+'/management/chanel/menu/'+${menuid}+'/'+$!{castid})
+<form id="pagerForm" method="post" action="$Action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	<input type="hidden" name="menuid" value="$!{menuid}" />
+	<input type="hidden" name="castid" value="$!{castid}" />
+	<input type="hidden" name="status" value="$!{status}" />
+	<input type="hidden" name="isFirst" value="false"/>
+</form>
+
+<form method="post" action="$Action" onsubmit="return dwzSearch(this, 'dialog');">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<p>
+				<label>日期：</label>
+				<select name="status" >
+				#foreach($date in ${datearea})
+					<option value="$!{date.id}" #if($!{status} == $!{date.id}) selected #end>$!{date.date}</option>
+				#end
+				</select>
+			</p>
+			<div class="subBar">
+				<ul>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>					
+					<li><div class="button"><div class="buttonContent"><button type="button" onclick="javascript:datechange($!{castid});" multLookup="orgId" warn="请选择频道">确定</button></div></div></li>				
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	<table class="list" layoutH="76" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="radio" class="checkboxCtrl" group="orgId" />单选</label></th>
+				<th width="40"></th>
+				<th width="180">回放节目单</th>
+				##<th width="180">日期</th>
+				<th width="100">开始时间</th>
+				##<th width="180">folder</th>
+				##<th width="100">assertId</th>
+			</tr>
+		</thead>
+		<tbody class="sortDrag">
+			#foreach($item in ${assertDatas})
+			<tr target="item_id" rel="${item.index}">
+				<td><input type="radio" name="orgId" value="{index:'${item.index}',name:'${item.name}',date:'${item.date}',time:'${item.time}',folder:'${item.folder}',assetId:'${item.assetId}'}"></td>
+				<td>$!{item.index}</td>
+				<td name="name">$!{item.name}</td>
+				##<td name="date">$!{item.date}</td>
+				<td name="time">$!{item.time}</td>
+				##<td>$!{item.folder}</td>
+				##<td>$!{item.assetId}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+		<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar_dialog.vm")
+</div>
+<script type="text/javascript">
+$(function() { 
+        var options = { 
+                cursor: 'move', // selector 的鼠标手势 
+                sortBoxs: 'tbody.sortDrag', //拖动排序项父容器 
+                replace: true, //2个sortBox之间拖动替换 
+                items: '> tr', //拖动排序项选择器 
+                selector: '', //td:first拖动排序项用于拖动的子元素的选择器，为空时等于item 
+                zIndex: 1000 
+            }; 
+        $('tbody', navTab.getCurrentPanel()).sortDrag(options);
+ });  
+ </script>

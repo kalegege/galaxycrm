@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessTotalCountDAO">
+   
+     <resultMap type="ActivityAccessTotalCountDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="pv" property="pv" javaType="java.lang.Integer" />
+		<result column="uv" property="uv" javaType="java.lang.Integer" />
+		<result column="date" property="date" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="type" property="type" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+     </resultMap>
+     
+     <resultMap type="ActivityAccessTotalCountVO" id="ActivityAccessTotalCountVO">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="pv" property="pv" javaType="java.lang.Integer" />
+		<result column="uv" property="uv" javaType="java.lang.Integer" />
+		<result column="date" property="date" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="name" property="name" javaType="java.lang.String" />
+     </resultMap>
+    <sql id="Base_Column_List">
+	id,	code, region, pv, uv,type, date, gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="Base_Where_Clause1">
+        WHERE type = #{type}
+    </sql>
+    
+    <sql id="Base_Where_Clause2">
+        WHERE date = #{date} and type=2
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if>  
+		    <if test="pv != null">
+		        and pv = #{pv} 
+		    </if>   
+		    <if test="uv != null">
+		        and uv = #{uv} 
+		    </if>     
+		    <if test="type != null">
+		        and type = #{type} 
+		    </if>   
+		    <if test="date != null">
+		        and date = #{date} 
+		    </if>
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityAccessTotalCountDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_access_totalcount (
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="pv != null">
+		   pv,
+		</if>
+		<if test="uv != null">
+		   uv,
+		</if>
+		<if test="date != null">
+		   date,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>  
+		<if test="type != null">
+		   type,
+		</if> 
+		gmt_create, gmt_modified		
+        ) values (
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="pv != null">
+	       #{pv},
+	    </if>
+		<if test="uv != null">
+	       #{uv},
+	    </if>
+		<if test="date != null">
+	       #{date},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="type != null">
+	       #{type},
+	    </if>
+	    now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityAccessTotalCountDO">
+        update activity_access_totalcount
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="pv != null">
+		        pv = #{pv},
+		    </if> 
+		    <if test="uv != null">
+		        uv = #{uv},
+		    </if> 
+		    <if test="date != null">
+		        date = #{date},
+		    </if>  
+		    <if test="type != null">
+		        type = #{type},
+		    </if>
+		    GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_access_totalcount
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <delete id="deleteByQuery" parameterType="ActivityAccessTotalCountQuery">
+        delete from activity_access_totalcount
+        <include refid="queryCondition" />
+    </delete>
+    
+    <delete id="deleteByType" parameterType="java.lang.Integer">
+        delete from activity_access_totalcount
+        <include refid="Base_Where_Clause1" />
+    </delete>
+    
+    <delete id="deleteByDate" parameterType="java.lang.String">
+        delete from activity_access_totalcount
+        <include refid="Base_Where_Clause2" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access_totalcount
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access_totalcount
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityAccessTotalCountQuery">
+		select count(*) from activity_access_totalcount
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityAccessTotalCountQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_access_totalcount
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+    
+    <!-- 总数 -->
+    <select id="count" resultType="int" parameterType="ActivityAccessTotalCountQuery">
+       SELECT count(*) from activity_access_totalcount <include refid="queryCondition" />
+	</select>
+    
+    <!-- 总pv/uv -->
+    <select id="statistics" resultMap="ActivityAccessTotalCountVO" parameterType="ActivityAccessTotalCountQuery">
+       SELECT a.*, b.name from (SELECT * from activity_access_totalcount  <include refid="queryCondition" />) a
+		LEFT OUTER JOIN 
+		activity_introduction b ON b.code=a.code 
+        order by date desc,pv desc
+        limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	
+</mapper>

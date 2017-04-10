@@ -1,0 +1,31 @@
+#macro(orgTree $org $basePath)
+	<ul>
+	#foreach($item in $org)
+		<li><a href="$basePath/management/security/organization/list/${item.id}" target="ajax" rel="jbsxBox2organization">$item.name</a>
+		#if($item.childList.size() > 0)
+			#orgTree($item.childList $basePath)
+		#end
+		</li>
+	#end
+	</ul>
+#end
+<div class="pageContent">
+	<div class="tabs">
+
+		<div class="tabsContent">
+			<div>
+				<div layoutH="0" style="float:left; display:block; overflow:auto; width:240px; border:solid 1px #CCC; line-height:21px; background:#fff">
+			    <ul class="tree treeFolder expand">
+					<li><a href="${basePath}/management/security/organization/list/1" target="ajax" rel="jbsxBox2organization">根组织</a>
+						#orgTree($organization, ${basePath})
+					</li>
+			     </ul>
+				</div>
+				
+				<div id="jbsxBox2organization" class="unitBox" style="margin-left:246px;">
+					<!--#include virtual="list1.html" -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

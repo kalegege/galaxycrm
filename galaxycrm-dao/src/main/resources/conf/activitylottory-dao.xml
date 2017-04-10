@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	<bean class="com.wasu.ptyw.galaxy.dal.persist.SqlSessionFactoryBean">
+		<property name="dataSource" ref="activitylotterydataSource" />
+		 <property name="envId" value="activitylottery" /> 
+		<property name="mappers">
+			<list>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityLotteryDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessNewDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityLotteryListDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityPrizeDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityLotteryAccessDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityIntroductionDAO</value>
+
+				<value>com.wasu.ptyw.activitylottery.dal.dao.VoteCountDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ZanCountDAO</value>
+
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessTotalCountDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessEveryPageDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityQuestionDAO</value>
+				<value>com.wasu.ptyw.activitylottery.dal.dao.ActivityPagenameRealnameDAO</value>
+
+			</list> 
+		</property>
+		<property name="typeAliasesPackage" value="com.wasu.ptyw.activitylottery.dal" />
+	</bean>
+</beans>

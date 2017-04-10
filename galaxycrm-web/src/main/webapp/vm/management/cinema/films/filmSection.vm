@@ -1,0 +1,126 @@
+##搜索请求
+#set($action=${basePath}+'/management/cinema/films/filmSection/'+${secId})
+##添加
+#set($addAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/list')
+##编辑
+#set($editAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/edit/{film_id}')
+#set($editAction2=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/edit/')
+##删除
+#set($deleteAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/delete/{film_id}')
+##上线
+#set($onlineAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/updateStatus?status=1')
+##下线
+#set($offlineAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/updateStatus?status=0')
+##拷贝
+#set($copyAction="${basePath}/management/cinema/films/filmSection/copy/${secId}/{regionCode}")
+
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+<form method="post" action="$action" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>状态：</label>
+					<select name="status">
+						<option value="-1">全部</option>
+						<option value="0" #if($!status=='0') selected #end >下线</option>
+						<option value="1" #if($!status=='1') selected #end >上线</option>
+					</select>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("Cinema_films:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="650" height="500" href="$addAction" ><span>添加</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="600" height="500" href="$editAction" ><span>编辑</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:delete"))
+				<li><a class="delete" target="ajaxTodo" href="$deleteAction" title="确认要删除?"><span>删除</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:edit"))
+				<li><a class="edit" target="selectedTodo" rel="filmIds" href="$onlineAction" title="确认要上线?"><span>上线</span></a></li>
+				<li><a class="edit" target="selectedTodo" rel="filmIds" href="$offlineAction" title="确认要下线?"><span>下线</span></a></li>
+				<li><select id="regionCode" name="regionCode">
+						<option value="">选择区域</option>
+						#foreach($region in $regions)
+						<option value="$region.regionCode" #if($regionCode==$region.regionCode) selected #end >$region.regionName</option>
+						#end
+					</select>
+				</li>
+				<li><a class="edit" target="ajaxTodo" href="$copyAction" title="确认要拷贝?"><span>拷贝</span></a></li>
+			#end
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				<th width="60">filmId</th>
+				<th width="180">片名</th>
+				<th width="100">拆条2名字</th>
+				<th width="100">别名</th>
+				<th width="30" orderField="priority" class="#if($page.orderField == 'priority')$page.orderDirection#end">排序</th>
+				<th width="60">状态</th>
+				<th width="120">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${sectionDatas})
+				#foreach($fItem in ${filmDatas})
+					#if($fItem.id == $item.filmId)
+						#set($filmItem = $fItem ) 
+					#end
+				#end
+			<tr target="film_id" rel="${item.id}">
+				<td><input type="checkbox" name="filmIds" value="${item.id}"></td>
+				<td>${item.id}</td>
+				<td>${filmItem.id}</td>
+				<td>#if(${filmItem.clpsStatus}!=1 || ${filmItem.status}!=1) [已下线] #end ${filmItem.name}</td>
+				<td>$!{item.sub2Name}</td>
+				<td>$!{filmItem.aliasName}</td>
+				<td>$!{item.priority}</td>
+				<td>#if(${item.status}==1) 上线 #else 下线 #end</td>
+				<td>$dateUtil.format(${item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>
+
+<script type="text/javascript">
+function dbltable(target,rel){
+	if(target == 'film_id'){
+		var url="$editAction2";
+		url = url + rel;
+		var options = { max:false, mask:true, width: 600, height: 500,maxable:true,minable:true,fresh:true,resizable:true,drawable:true};
+		$.pdialog.open(url,"lookup2organization", "编辑", options);
+	} 
+}
+</script>

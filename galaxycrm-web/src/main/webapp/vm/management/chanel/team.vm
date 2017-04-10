@@ -1,0 +1,128 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/team/'+${secId})
+##添加
+#set($addAction=${basePath}+'/management/chanel/updateAll')
+##选择
+#set($chAction=${basePath}+'/management/chanel/choose/1')
+##选择
+#set($itemAction=${basePath}+'/management/chanel/item/1')
+##编辑
+#set($editAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/edit/{film_id}')
+#set($editAction2=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/edit/')
+##删除
+#set($deleteAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/delete/{film_id}')
+##上线
+#set($onlineAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/updateStatus?status=1')
+##下线
+#set($offlineAction=${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/updateStatus?status=0')
+##拷贝
+#set($copyAction="${basePath}/management/cinema/films/filmSection/copy/${secId}/{regionCode}")
+
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+
+<div class="pageContent">
+
+		<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("Cinema_films:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="650" height="500" href="$addAction" ><span>插入</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="600" height="500" href="$addAction" ><span>删除</span></a></li>
+			#end
+				<li><a class="delete" target="ajaxTodo" href="$addAction" title="确认要同步?"><span>同步</span></a></li>
+		</ul>
+	</div>
+	
+<table class="table" layoutH="600" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				<th width="60">bid</th>
+				<th width="180">bname</th>
+				<th width="100">regionid</th>
+				<th width="100">canauth</th>
+				<th width="120">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${filmDatas})
+			<tr target="film_id" rel="${item.id}">
+				<td><input type="checkbox" name="filmIds" value="${item.id}"></td>
+				<td>${item.id}</td>
+				<td>${item.bId}</td>
+				<td><a href="$itemAction" target="ajax" rel="ttl">${item.bName}</a></td>
+				<td>${item.regionId}</td>
+				<td>${item.canAuth}</td>
+				<td>$dateUtil.format(${item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+	</tbody>
+</table>
+<table class="table1" layoutH="400" width="100%" id="ttl">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				<th width="60">chs</th>
+				<th width="180">chId</th>
+				<th width="100">chNo</th>
+				<th width="100">serviceId</th>
+				<th width="40">isDel</th>
+				<th width="60">prdId</th>
+				<th width="180">chName</th>
+				<th width="100">regionid</th>
+				<th width="100">isPlayback</th>
+				<th width="180">isBoardcast</th>
+				<th width="100">chNameEn</th>
+				<th width="100">hdChNo</th>
+				<th width="120">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${filmDatas1})
+			<tr target="film_id1" rel="${item.id}">
+				<td><input type="checkbox" name="filmIds" value="${item.id}"></td>
+				<td>${item.id}</td>
+				<td>${item.chs}</td>
+				<td>${item.chId}</td>
+				<td>${item.chNo}</td>
+				<td>${item.serviceId}</td>
+				<td>${item.isDel}</td>
+				<td>${item.prdId}</td>
+				<td>${item.chName}</td>
+				<td>${item.regionId}</td>
+				<td>${item.isPlayback}</td>
+				<td>${item.isBoardcast}</td>
+				<td>${item.chNameEn}</td>
+				<td>${item.hdChNo}</td>
+				<td>$dateUtil.format(${item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>
+
+<script type="text/javascript">
+function dbltable(target,rel){
+	if(target == 'film_id'){
+		var url="$editAction2";
+		url = url + rel;
+		var options = { max:false, mask:true, width: 600, height: 500,maxable:true,minable:true,fresh:true,resizable:true,drawable:true};
+		$.pdialog.open(url,"lookup2organization", "编辑", options);
+	} 
+}
+</script>

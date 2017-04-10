@@ -1,0 +1,68 @@
+<form id="pagerForm" method="post" action="${basePath}/management/cinema/films/trailer">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="isFirst" value="false"/>
+</form>
+
+<form method="post" action="${basePath}/management/cinema/films/trailer" onsubmit="return dwzSearch(this, 'dialog')">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>名称：</label>
+					<input type="text" name="keywords" value="$!{keywords}"/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button multLookup="trailerlookup" warn="请选择片子" type="button">确定</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	<table class="list" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40"></th>
+				<th width="60">ID</th>
+				<th width="280">片名</th>
+				<th width="150">拆条2名字</th>
+			</tr>
+		</thead>
+		<tbody class="sortDrag">
+		#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td><input type="checkbox" name="trailerlookup" value="{id:${item.id},asset_id:${item.assetId}}"></td>
+				<td>${item.id}</td>
+				<td>${item.name}</td>
+				<td>${item.sub2Name}</td>
+			</tr>
+		#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar_dialog.vm")
+	
+</div>
+<script type="text/javascript">
+$(function() { 
+        var options = { 
+                cursor: 'move', // selector 的鼠标手势 
+                sortBoxs: 'tbody.sortDrag', //拖动排序项父容器 
+                replace: true, //2个sortBox之间拖动替换 
+                items: '> tr', //拖动排序项选择器 
+                selector: '', //td:first拖动排序项用于拖动的子元素的选择器，为空时等于item 
+                zIndex: 1000 
+            }; 
+        $('tbody', navTab.getCurrentPanel()).sortDrag(options);
+ });  
+ </script>

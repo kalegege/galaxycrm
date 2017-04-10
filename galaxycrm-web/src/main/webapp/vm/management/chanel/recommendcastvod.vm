@@ -1,0 +1,80 @@
+ ##分页
+#set ($Action=${basePath}+'/management/chanel/vod/'+${vodid})
+##删除
+##set($deleteAction=${basePath}+'/management/chanel/delete/item/'+'{vodid}')
+##插入
+#set($addAction=${basePath}+'/management/chanel/rinsertitem')
+<form id="pagerForm" method="post" action="$Action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	<input type="hidden" name="vodid" value="$!{vodid}" />
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+	<input type="hidden" name="isFirst" value="false"/>
+</form>
+
+<div class="pageHeader">
+<form method="post" action="$Action" onsubmit="return dwzSearch(this, 'dialog');">
+		<div class="searchBar">
+			<p>
+				<label>日期：</label>
+				<select name="status" >
+				#foreach($date in ${datearea})
+					<option value="$!{date.id}" #if($!{status} == $!{date.id}) selected #end>$!{date.date}</option>
+				#end
+				</select>
+				<span class="info">频道名称：$!{chanelName}</span>
+			</p>
+			<div class="subBar">
+				<ul>			
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>				
+					<li><div class="button"><div class="buttonContent"><button type="button"  multLookup="orgIdff" warn="请选择节目单">确定</button></div></div></li>				
+				</ul>
+			</div>
+		</div>	
+</form>
+</div>
+<div class="pageContent" >
+	<table class="list" layoutH="76" targetType="dialog" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="radio" class="checkboxCtrl" group="orgIdff" />单选</label></th>
+				<th width="180" orderfield="name">节目名称</th>
+				##<th width="80" orderfield="startDate">开始日期</th>
+				<th width="80" orderfield="startTime">开始时间</th>
+				##<th width="100" orderfield="stopDate">结束日期</th>
+				<th width="100" orderfield="stopTime">结束时间</th>
+			</tr>
+		</thead>
+		<tbody class="sortDrag">
+			#foreach($item in ${vodDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td><input type="radio" name="orgIdff" value="{name:'${item.name}',startDate:'${item.startDate}',startTime:'${item.startTime}',stopDate:'${item.stopDate}',stopTime:'${item.stopTime}'}"></td>
+				<td>$!{item.name}</td>
+				##<td>$!{item.startDate}</td>
+				<td>$!{item.startTime}</td>
+				##<td>$!{item.stopDate}</td>
+				<td>$!{item.stopTime}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar_dialog.vm")
+</div>
+<script type="text/javascript">
+$(function() { 
+        var options = { 
+                cursor: 'move', // selector 的鼠标手势 
+                sortBoxs: 'tbody.sortDrag', //拖动排序项父容器 
+                replace: true, //2个sortBox之间拖动替换 
+                items: '> tr', //拖动排序项选择器 
+                selector: '', //td:first拖动排序项用于拖动的子元素的选择器，为空时等于item 
+                zIndex: 1000 
+            }; 
+        $('tbody', navTab.getCurrentPanel()).sortDrag(options);
+ });  
+ </script>

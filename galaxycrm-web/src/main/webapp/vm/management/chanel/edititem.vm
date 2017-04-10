@@ -1,0 +1,63 @@
+<h2 class="contentTitle">编辑频道分组信息</h2>
+<form method="post" action="${basePath}/management/chanel/updateitem" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>频道名称：</dt>
+			<dd>
+				<input type="hidden" name="id" readonly="readonly" value="$!{item.id}" class="required" />
+				<input type="text" name="chName" readonly="readonly" value="$!{item.chName}" class="required" />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>别名：</dt>
+			<dd>
+				<input type="text" name="byname"  value="$!{item.byname}" class="required" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>高清标志:</dt>
+			<dd><select name="chtype" >
+				<option value="0" >标清</option>
+				<option value="1" #if ($!{item.chtype} == 1) selected #end >高清</option>
+			</select></dd>
+		</dl>
+		<dl>
+			<dt>台标图片：</dt>
+			<input type="hidden" readonly="readonly" value="$!{item.chlogourl}" name="chlogourl" />
+			<input type="hidden" readonly="readonly" value="$!{item.chlogoName}" name="chlogoName" class="required"/>
+			<div class="pageContent" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput" type="file" name="image" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'200KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:true,
+				onUploadSuccess:function(file, data, respone){$('#showimage').attr('src',data);$('#imagespan').text(file.name);$('input[name=chlogoName]').val(file.name);$('input[name=chlogourl]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+		</dl>
+		<dl id="imageview">
+			<dt>查看台标：</dt>
+			<dd>
+			<a  href="javascript:image1_onclick();"><span id="imagespan">$!{item.chlogoName}</span></a>
+			</dd>
+		</dl>
+		<div id="imagereview1"style="display:none;width:50px;height:30px;border:1px solid #f00;position: absolute; bottom: 20px;">
+				<img  id="showimage" src="$!{item.chlogourl}" alt="预览图片" /> 
+		</div>	
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

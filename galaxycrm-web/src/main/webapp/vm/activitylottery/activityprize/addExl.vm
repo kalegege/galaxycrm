@@ -1,0 +1,26 @@
+<form method="post" action="${basePath}/activity/activityprize/addExl" enctype="multipart/form-data" class="pageForm required-validate" onsubmit="return iframeCallback(this,dialogAjaxDone);" novalidate="novalidate">
+		<div class="pageFormContent" layouth="56" style="height: 329px; overflow: auto;">
+			<p>
+				<label>模板导出：</label>
+				<button type="button" id="downExl">下载</button>
+			</p>
+			<p>
+				<label>奖品信息导入：</label>
+				<input name="fileToUpload" type="file" class="valid">
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+</form>
+
+<script>
+$(function(){
+	$(".pageFormContent #downExl").click(function(){
+		document.location = "/galaxycrm/activity/activityprize/exportmodel";
+	})
+});
+</script>

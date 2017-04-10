@@ -1,0 +1,69 @@
+<script  type="text/javascript">
+      
+ </script>
+
+
+<h2 class="contentTitle">修改抽奖配置信息</h2>
+<form method="post" action="${basePath}/activity/activityQuestion/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<input type="hidden" name="id" value="${item.id}"/>
+	<div class="pageFormContent" layoutH="97">
+	
+		<dl>
+			<dt>活动编号：</dt>
+			<dd>
+				<input type="text" name="code" class="required"  size="32"  value="$!{item.code}"/>
+			</dd>
+		</dl>
+		
+		
+		<dl>
+			<dt>题干：</dt>
+			<dd>
+				<input type="text" name="stem" class="required"  size="32"   value="$!{item.stem}"/>
+			</dd>
+		</dl>
+		
+
+		<dl>
+			<dt>选项A：</dt>
+			<dd>
+				<input type="text" name="option1" class="required"  size="32"   value="$!{item.option1}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>选项B：</dt>
+			<dd>
+				<input type="text" name="option2" class="required"  size="32"   value="$!{item.option2}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>选项C：</dt>
+			<dd>
+				<input type="text" name="option3" class="required"  size="32"   value="$!{item.option3}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>选项D：</dt>
+			<dd>
+				<input type="text" name="option4" class="required"  size="32"   value="$!{item.option2}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>答案：</dt>
+			<dd>
+				<input type="text" name="answer" class="required"  size="32"   value="$!{item.answer}" />
+			</dd>
+		</dl>
+	     
+	     
+       
+				
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

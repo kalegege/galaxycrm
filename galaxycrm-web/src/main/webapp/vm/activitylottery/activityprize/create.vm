@@ -1,0 +1,90 @@
+<h2 class="contentTitle">新增活动</h2>
+<form method="post" action="${basePath}/activity/activityprize/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+            	<dl>
+					<label>活动名称：</label>
+					<select name="name">
+						<option value="-1">请选择活动名称</option>
+						#foreach($item in $datas)
+						<option value="$!item.name" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+	       	</dl>
+			<dl>
+					<label>活动编号：</label>
+					<select name="code">
+						<option value="-1">请选择活动名称</option>
+						#foreach($item in $datas)
+						<option value="$!item.code" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+			
+		</dl>
+		<dl style="height:50px">
+			<label style="height:50px">奖品地区：</label>
+			#foreach($item in $regions)
+				<input name="region" type="checkbox" value="$!item.host" />$!item.region
+			#end
+		</dl>
+		<dl>
+			<dt>奖品等级：</dt>
+			<dd>
+				<input type="text" name="prize" class="required"/>  
+			</dd>
+		</dl>
+		<dl>
+			<dt>奖品名称：</dt>
+			<dd>
+				<input type="text" name="prizeTxt" class="required"/>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>奖品总数量：</dt>
+			<dd>
+				<input type="text" name="count" class="required"/>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>每天分配奖品数量：</dt>
+			<dd>
+				<input type="text" name="countDay" class="required"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>中奖概率：</dt>
+			<dd>
+				<input type="text" name="probability" class="required"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>每天已使用奖品数量：</dt>
+			<dd>
+				<input type="text" name="useCountDay" class="required"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>已使用奖品总数量：</dt>
+			<dd>
+				<input type="text" name="useCount" class="required"/>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>状态:</dt>
+			<dd><select name="status" >
+				<option value="0" >0</option>
+				<option value="1" >1</option>
+			</select></dd>
+		</dl>
+		
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

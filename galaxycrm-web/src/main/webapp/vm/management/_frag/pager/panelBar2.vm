@@ -1,0 +1,13 @@
+<div class="panelBar">
+	<div class="pages">
+		<span>每页显示</span>
+		<select name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value},'jbsxBox2')">
+			#foreach($index in [10,15,20,25,30])
+				<option value="${index}" #if($page.numPerPage == $index) selected="selected"#end>${index}</option>
+			#end
+		</select>
+		<span>总条数: ${page.totalCount}</span>
+	</div>
+	
+	<div class="pagination" targetType="navTab" totalCount="${page.totalCount}" numPerPage="${page.numPerPage}" pageNumShown="10" currentPage="${page.pageNum}" rel="jbsxBox2"></div>
+</div>

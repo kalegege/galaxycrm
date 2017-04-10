@@ -1,0 +1,52 @@
+<!-- <beans xmlns="http://www.springframework.org/schema/beans" -->
+<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
+<!--        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"> -->
+
+<!--     线程执行器配置，用于任务注册 -->
+<!--     <bean id="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> -->
+<!--         <property name="corePoolSize" value="10" /> -->
+<!--         <property name="maxPoolSize" value="100" /> -->
+<!--         <property name="queueCapacity" value="500" /> -->
+<!--     </bean> -->
+
+<!--     业务对象 -->
+<!--     <bean id="statisticsTask" class="com.wasu.ptyw.galaxycrm.task.StatisticsTask" /> -->
+
+<!--     调度业务 -->
+    
+<!--     BEGIN  总访问量1个小时调用1次  0 0 0/1 * * ? -->
+<!--     <bean id="statistic" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> -->
+<!--         <property name="targetObject" ref="statisticsTask" /> -->
+<!--         <property name="targetMethod" value="statistic" /> -->
+<!--     </bean> -->
+<!--     <bean id="triggerStatistic" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!--         <property name="jobDetail" ref="statistic" /> -->
+<!--         <property name="cronExpression" value="0 0/30 * * * ?" /> -->
+<!--     </bean> -->
+<!--     END 每天调用 -->
+    
+    
+<!--     BEGIN  总访问量1个小时调用1次  0 0 0/1 * * ? -->
+<!--     <bean id="returnPrize" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> -->
+<!--         <property name="targetObject" ref="statisticsTask" /> -->
+<!--         <property name="targetMethod" value="returnPrize" /> -->
+<!--     </bean> -->
+<!--     <bean id="triggerReturnPrize" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!--         <property name="jobDetail" ref="returnPrize" /> -->
+<!--         <property name="cronExpression" value="0 15/30 * * * ?" /> -->
+<!--     </bean> -->
+<!--     END 每天调用 -->
+    
+
+<!--     设置调度 -->
+<!--     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> -->
+<!--         <property name="triggers"> -->
+<!--             <list> -->
+<!--                 <ref bean="triggerStatistic"/> -->
+<!--                 <ref bean="triggerReturnPrize"/> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="taskExecutor" ref="executor" /> -->
+<!--     </bean> -->
+
+<!-- </beans> -->

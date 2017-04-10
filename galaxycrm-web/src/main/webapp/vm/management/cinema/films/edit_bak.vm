@@ -1,0 +1,98 @@
+<style>.pageFormContent > dl{ width:100%;}
+.pageFormContent > dl ll{padding-left: 5px;}
+.pageFormContent > dl span{padding-right: 20px;}
+.pageFormContent > dl span .textInput{ float:none;}
+</style>
+<h2 class="contentTitle">$!{item.name}[$!{item.assetId}](#if($!item.clpsStatus=="1")上线#else下线#end)</h2>
+<form method="post" action="${basePath}/management/cinema/films/editSave" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<input type="hidden" name="id" value="${item.id}"/>
+	<div class="pageFormContent" layoutH="97" >
+		<dl>
+			<ll>资产类型：</ll>
+			<span>#if($!item.assetType == '13') 预告 #elseif($!item.assetType == '36') 电影 #end</span>
+			<ll>年份：</ll>
+			<span>$!item.year</span>
+			<ll>高清：</ll>
+			<span>#if($!item.ishd == '1') 是 #else 否 #end</span>
+		</dl>
+		<dl> 
+			<ll>导演：</ll>
+			<span>$!item.directors</span>
+			<ll>演员：</ll>
+			<span>$!item.actors</span>
+		</dl>
+		<dl> 
+			<ll>看点：</ll>
+			<span>$!item.viewpoint</span>
+		</dl>
+		<dl> 
+			<ll>简介：</ll>
+			<span>$!item.des</span>
+		</dl>
+		<dl>
+			<ll>别名：</ll>
+			<span><input type="text" name="aliasName" value="$!{item.aliasName}"/></span>
+			<ll>类型：</ll>
+			<span><input type="text" name="leixing" title="$!{item.leixing}" value="$!{item.leixing}"/></span>
+			<ll>星级：</ll>
+			<span>$!item.starlevel<!--<select style="float:none;" name="starlevel">
+				#foreach($index in [0,1,2,3,4,5])
+					<option value="$index" #if($!item.starlevel == $index) selected #end >$index</option>
+				#end
+			</select>--></span>
+		</dl>
+		<dl>
+			<ll>RtspURL：</ll>
+			<span><input type="text" name="rtspUrl" title="$!{item.rtspUrl}" value="$!{item.rtspUrl}"/></span>
+			<ll>AssetURL：</ll>
+			<span><input type="text" name="assetUrl" title="$!{item.assetUrl}" value="$!{item.assetUrl}"/></span>
+		</dl>
+		<dl>
+			<ll>海报：</ll>
+			<span><input type="text" name="haibaoUrl" title="$!{item.haibaoUrl}" value="$!{item.haibaoUrl}"/></span>
+			<ll>草图：</ll>
+			<span><input type="text" name="caotuUrl" title="$!{item.caotuUrl}" value="$!{item.caotuUrl}"/></span>
+		</dl>
+		<dl>
+			<ll>剧照：</ll>
+			<span><input type="text" name="juzhaoUrl" title="$!{item.juzhaoUrl}" value="$!{item.juzhaoUrl}"/></span>
+			<ll>背景：</ll>
+			<span><input type="text" name="beijingUrl" title="$!{item.beijingUrl}" value="$!{item.beijingUrl}"/></span>
+		</dl>
+		<dl>
+			<ll>标题图：</ll>
+			<span><input type="text" name="biaotiUrl" title="$!{item.biaotiUrl}" value="$!{item.biaotiUrl}"/></span>
+		</dl>
+		<dl>
+			<ll>状态:</ll>
+			<span><select name="status" style="float:none;">
+				<option value="0" #if($!item.status=='0') selected #end >新导入</option>
+				<option value="1" #if($!item.status=='1') selected #end >上线</option>
+				<option value="2" #if($!item.status=='2') selected #end >下线</option>
+				<option value="3" #if($!item.status=='3') selected #end >系统下线</option>
+			</select></span>
+			<ll>定价(分):</ll>
+			<span><input type="text" name="aliasPrice" title="$!{item.aliasPrice}" size="4" maxlength="4" value="$!{item.aliasPrice}"/></span>
+			<ll>相关预告片:</ll>
+			<span><input lookupField="linkFilmIds.id" type="text" name="linkFilmIds" title="$!{item.linkFilmIds}" value="$!{item.linkFilmIds}"/>
+				<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/cinema/films/trailer" width="600" height="500">…</a></span>
+		</dl>
+		<dl>
+			<ll>微信购票编码：</ll>
+			<span><input type="text" name="weixinCode" title="$!{item.weixinCode}" value="$!{item.weixinCode}"/></span>
+			<ll>淘宝购票编码：</ll>
+			<span><input type="text" name="taobaoCode" title="$!{item.taobaoCode}" value="$!{item.taobaoCode}"/></span>
+		</dl>
+		<dl>			
+			<ll>优先级：</ll>
+			<span><input type="text" name="priority" title="$!{item.priority}" size="4" maxlength="4" value="$!{item.priority}"/></span>
+		</dl>	
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

@@ -1,0 +1,99 @@
+<script>
+$(function(){
+    var params=0;
+    $("#pagerForm2 select[name='keywords']").change(function(){
+       params=$(this).children('option:selected').val();
+    });
+   
+    $("#a2").click(function(){
+    
+    document.location = "/galaxycrm/activity/lottery/exportActivityLotterySubmit?keywords=" + params;
+   });
+
+});
+</script>
+
+<form id="pagerForm" method="post" action="${basePath}/activity/lottery/list">
+    <input type="hidden" name="region" value="$!{region}" />
+    <input type="hidden" name="prize" value="$!{prize}" />
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+<form id="pagerForm2" method="post" action="${basePath}/activity/lottery/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>活动名称：</label>
+					<select name="keywords">
+						<option value="">请选择活动名称</option>
+						#foreach($item in $!{activityIntroductionDatas})
+						<option  value="$!{item.code}" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+				</li>
+				<li>
+					<label>机顶盒号：</label>
+					<input type="text" name="keywords2" value="$!{keywords2}"/>
+				</li>
+				<li>
+					<input type="hidden" name="region" value="$!{region}"/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("ActivityIntroduction:save"))
+				<li><a class="add" id="a2" rel="lookup2organization" mask="true" width="530" height="380" ><span>导出</span></a></li>
+			#end
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40">ID</th>
+				<th width="40">活动编号</th>
+				<th width="40">活动名称</th>
+				<th width="80">机顶盒号</th>
+				<th width="40">区域编号</th>
+				<th width="40">奖品级别</th>
+				<th width="120">奖品名称</th>
+				<th width="80">手机</th>
+				<th width="80" orderField="gmt_create" class="#if($page.orderField == 'gmt_create') $page.orderDirection #else ''#end">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.id}</td>
+				<td>$!{item.code}</td>
+				<td>$!{huodongmingcheng}</td>
+				<td>$!{item.stbId}</td>
+				<td>$!{item.region}</td>
+				<td>$!{item.prize}</td>
+				<td>$!{item.prizeTxt}</td>
+				<td>$!{item.mobile}</td>
+				<td>$dateUtil.format($!{item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

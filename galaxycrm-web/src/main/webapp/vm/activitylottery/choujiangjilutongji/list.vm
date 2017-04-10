@@ -1,0 +1,80 @@
+<form id="pagerForm" method="post" action="${basePath}/activity/lotteryAccessAll/list">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 <input type="hidden" name="region" value="$!{region}"/>
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+
+<form method="post" action="${basePath}/activity/lotteryAccessAll/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>活动编号：</label>
+					
+					<select name="keywords">
+						<option value="-1">请选择活动名称</option>
+						#foreach($item in $!{activityIntroductionDatas})
+						<option value="$!{item.code}" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+				</li>
+				<li>
+					<label>区域编号：</label>
+					<input type="text" name="region" value="$!{region}"/>
+				</li>
+				
+				<li>
+					<label>统计查询：</label>
+					<select name="mark">
+						<option value="">请选择查询条件</option>
+						<option value="100" #if($!mark=='100') selected #end >抽奖次数统计</option>
+					</select>
+				</li>
+				
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40">ID</th>
+				<th width="40">活动编号</th>
+				<th width="60">机顶盒号</th>
+				<th width="40">区域编号</th>
+			
+				<th width="120" orderField="gmt_create" class="#if($page.orderField == 'gmt_create') $page.orderDirection #else ''#end">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.id}</td>
+				<td>$!{item.code}</td>
+				<td>$!{item.stbId}</td>
+				<td>$!{item.region}</td>
+				
+				<td>$dateUtil.format($!{item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

@@ -1,0 +1,94 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/inteam2')
+##同步
+#set($syncAction=${basePath}+'/management/chanel/updateAll/'+'{chanelregion}')
+##添加
+#set($addAction=${basePath}+'/management/chanel/addteam')
+##添加
+#set($additemteamAction=${basePath}+'/management/chanel/additemteam/'+'{team_id}')
+##编辑频道
+#set($edititemteamAction=${basePath}+'/management/chanel/edititemteam/'+'{team_id}')
+##删除
+#set($deleteitemteamAction=${basePath}+'/management/chanel/deleteitemteam/'+'{team_id}')
+##item选择
+#set($itemAction=${basePath}+'/management/chanel/items/'+'{team_id}')
+##编辑
+#set($editAction=${basePath}+'/management/chanel/editteam/'+'{team_id}')
+##编辑
+#set($deleteAction=${basePath}+'/management/chanel/delete/team/'+'{team_id}')
+<div class="pageContent">
+	<div id="jbsxBox4" class="unitBox" style="float:left; display:block; overflow:auto; width:518px;">
+		<form id="pagerForm" method="post" action="$action">
+		<input type="hidden" name="pageNum" value="${page.pageNum}" />
+		<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+		<input type="hidden" name="keywords" value="$!{keywords}"/>
+		<input type="hidden" name="chanelregion" value="$!{chanelregion}" />
+		</form>
+
+		<div class="pageContent" id="pageContent" >
+		<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("chanel_team2:save"))
+				##<li><a class="add" target="ajax" rel="jbsxBox5"  mask="true" width="650" height="500" onclick="this.href='${basePath}/management/chanel/items/'+$('#jbsxBox4 .selected').attr('rel')" href="$itemAction" ><span>查询</span></a></li>
+			#end
+				##<li><a class="edit" target="ajaxTodo" href="$syncAction" title="确认要同步?" callback="function(){}"><span>同步</span></a></li>
+			#if($shiro.hasPermission("chanel_team2:save"))
+				<li><a class="add" target="dialog" rel="addteam" mask="true" width="650" height="500" href="$addAction" ><span>新增分组</span></a></li>
+			#end
+			#if($shiro.hasPermission("chanel_team2:edit"))
+				<li><a class="edit" target="dialog" rel="editteam" mask="true" width="600" height="500" href="$editAction" ><span>编辑分组</span></a></li>
+			#end
+			#if($shiro.hasPermission("chanel_team2:delete"))
+				<li><a class="delete" target="ajaxTodo"   href="$deleteAction" title="确认要删除?" ><span>删除分组</span></a></li>
+			#end
+			#if($shiro.hasPermission("chanel_team2:save"))
+				<li><a class="add" target="dialog" rel="additemteam" mask="true" width="650" height="500" href="$additemteamAction" ><span>添加频道</span></a></li>
+			#end
+			#if($shiro.hasPermission("chanel_team2:edit"))
+				<li><a class="edit" id="edititemteam" target="dialog" rel="edititemteam" mask="true" width="600" height="500" href="$edititemteamAction" onclick="javascript:edititemteam_click('${basePath}/management/chanel/edititemteam/');"><span>编辑频道</span></a></li>
+			#end
+			#if($shiro.hasPermission("chanel_team2:save"))
+				##<li><a class="delete" target="dialog" rel="deleteitemteam" mask="true" width="650" height="500" href="$deleteitemteamAction" ><span>删除频道</span></a></li>
+				<li><a class="delete" id="deleteitemteam" target="ajaxTodo"   href="$deleteitemteamAction" onclick="javascript:deleteitemteam_click('${basePath}/management/chanel/deleteitemteam/');" title="是否删除该频道?" ><span>删除频道</span></a></li>
+			#end
+		</ul>
+		</div>
+	
+		##<table class="table" LayoutH="76" width="100%" >
+		<table class="table" width="100%" >
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				##<th width="60">分组号</th>
+				<th width="100">分组名称</th>
+				##<th width="100">区域号</th>
+				##<th width="100">分组首频道</th>
+				<th width="100">分组优先级</th>
+			</tr>
+		</thead>
+		<tbody id="team">
+			#foreach($item in ${teamDatas})
+			  <tr target="team_id" rel="${item.id}" onclick="$('#jbsxBox5').loadUrl('${basePath}/management/chanel/items/${item.id}')">
+				<td><input type="checkbox" name="filmIds" value="${item.id}"></td>
+				<td>$!{item.id}</td>
+				##<td>$!{item.bId}</td>
+				<td>$!{item.bName}</td>
+				##<td>$!{item.regionId}</td>
+				##<td>$!{item.firstchid}</td>
+				<td>#if ($!{item.sortby} != 99999)  $!{item.sortby} #end</td>
+			 </tr>
+				#end
+			</tbody>
+		</table>
+ 
+		<!-- 分页 -->
+		#parse("/management/_frag/pager/panelBar2.vm")
+		</div>
+	</div>
+	
+	<div id="jbsxBox5" class="unitBox" style="margin-left:520px; ">
+		
+	</div>
+	
+</div>

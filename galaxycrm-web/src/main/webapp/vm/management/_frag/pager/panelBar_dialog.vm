@@ -1,0 +1,13 @@
+<div class="panelBar">
+	<div class="pages">
+		<span>每页显示</span>
+		<select name="numPerPage" onchange="dialogPageBreak({numPerPage:this.value})">
+			#foreach($index in [10,15,20,25,30])
+				<option value="${index}" #if($page.numPerPage == $index) selected="selected"#end>${index}</option>
+			#end
+		</select>
+		<span>总条数: ${page.totalCount}</span>
+	</div>
+	
+	<div class="pagination" targetType="dialog" totalCount="${page.totalCount}" numPerPage="${page.numPerPage}" pageNumShown="10" currentPage="${page.pageNum}"></div>
+</div>

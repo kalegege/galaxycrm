@@ -1,0 +1,24 @@
+<h2 class="contentTitle">新增页面名称</h2>
+<form method="post" action="${basePath}/activity/activityPagename/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>页面名称：</dt>
+			<dd>
+				<input type="text" name="pagename" class="required"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>实际名称：</dt>
+			<dd>
+				<input type="text" name="realname" class="required"/>  
+			</dd>
+		</dl>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

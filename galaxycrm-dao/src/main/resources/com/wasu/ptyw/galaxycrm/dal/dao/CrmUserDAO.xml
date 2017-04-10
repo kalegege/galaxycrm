@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.galaxycrm.dal.dao.CrmUserDAO">
+    <resultMap type="CrmUserDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="username" property="username" javaType="java.lang.String" />
+		<result column="password" property="password" javaType="java.lang.String" />
+		<result column="phone" property="phone" javaType="java.lang.String" />
+		<result column="email" property="email" javaType="java.lang.String" />
+		<result column="realname" property="realname" javaType="java.lang.String" />
+		<result column="salt" property="salt" javaType="java.lang.String" />
+		<result column="org_id" property="orgId" javaType="java.lang.Long" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	username,	password,	phone,	email,	realname,	salt,	org_id,	status,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="username != null">
+		        and username = #{username} 
+		    </if> 
+		    <if test="likeUsername != null">
+		        and username like CONCAT('%','${likeUsername}','%' )
+		    </if> 
+		    <if test="password != null">
+		        and password = #{password} 
+		    </if> 
+		    <if test="phone != null">
+		        and phone = #{phone} 
+		    </if> 
+		    <if test="email != null">
+		        and email = #{email} 
+		    </if> 
+		    <if test="realname != null">
+		        and realname = #{realname} 
+		    </if> 
+		    <if test="salt != null">
+		        and salt = #{salt} 
+		    </if> 
+		    <if test="orgId != null">
+		        and org_id = #{orgId} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="CrmUserDO" useGeneratedKeys="true" keyProperty="id">
+        insert into crm_user (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="username != null">
+		   username,
+		</if>
+		<if test="password != null">
+		   password,
+		</if>
+		<if test="phone != null">
+		   phone,
+		</if>
+		<if test="email != null">
+		   email,
+		</if>
+		<if test="realname != null">
+		   realname,
+		</if>
+		<if test="salt != null">
+		   salt,
+		</if>
+		<if test="orgId != null">
+		   org_id,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="username != null">
+	       #{username},
+	    </if>
+		<if test="password != null">
+	       #{password},
+	    </if>
+		<if test="phone != null">
+	       #{phone},
+	    </if>
+		<if test="email != null">
+	       #{email},
+	    </if>
+		<if test="realname != null">
+	       #{realname},
+	    </if>
+		<if test="salt != null">
+	       #{salt},
+	    </if>
+		<if test="orgId != null">
+	       #{orgId},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="CrmUserDO">
+        update crm_user
+        <trim prefix="set">
+		    <if test="username != null">
+		        username = #{username},
+		    </if> 
+		    <if test="password != null">
+		        password = #{password},
+		    </if> 
+		    <if test="phone != null">
+		        phone = #{phone},
+		    </if> 
+		    <if test="email != null">
+		        email = #{email},
+		    </if> 
+		    <if test="realname != null">
+		        realname = #{realname},
+		    </if> 
+		    <if test="salt != null">
+		        salt = #{salt},
+		    </if> 
+		    <if test="orgId != null">
+		        org_id = #{orgId},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from crm_user
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from crm_user
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from crm_user
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="CrmUserQuery">
+		select count(*) from crm_user
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="CrmUserQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from crm_user
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+    
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE crm_user 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	</update>
+    
+</mapper>

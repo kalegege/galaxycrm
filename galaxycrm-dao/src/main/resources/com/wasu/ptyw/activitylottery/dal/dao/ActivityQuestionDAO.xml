@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityQuestionDAO">
+
+      <resultMap type="ActivityQuestionDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stem" property="stem" javaType="java.lang.String" />
+		<result column="option1" property="option1" javaType="java.lang.String" />
+		<result column="option2" property="option2" javaType="java.lang.String" />
+		<result column="option3" property="option3" javaType="java.lang.String" />
+		<result column="option4" property="option4" javaType="java.lang.String" />
+		<result column="answer" property="answer" javaType="java.lang.String" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+     </resultMap>
+      
+      <resultMap type="ActivityQuestionVO" id="ActivityQuestionVO">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stem" property="stem" javaType="java.lang.String" />
+		<result column="option1" property="option1" javaType="java.lang.String" />
+		<result column="option2" property="option2" javaType="java.lang.String" />
+		<result column="option3" property="option3" javaType="java.lang.String" />
+		<result column="option4" property="option4" javaType="java.lang.String" />
+		<result column="answer" property="answer" javaType="java.lang.String" />
+		<result column="name" property="name" javaType="java.lang.String" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+     </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	code,stem,option1,option2,option3,option4,stem,answer, gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="stem != null">
+		        and stem = #{stem} 
+		    </if>  
+		    <if test="option1 != null">
+		        and option1 = #{option1} 
+		    </if>   
+		    <if test="option2 != null">
+		        and option2 = #{option2} 
+		    </if>     
+		    <if test="option3 != null">
+		        and option3 = #{option3} 
+		    </if>   
+		    <if test="option4 != null">
+		        and option4 = #{option4} 
+		    </if>   
+		    <if test="answer != null">
+		        and answer = #{answer} 
+		    </if>
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityQuestionDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_question (
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="stem != null">
+		   stem,
+		</if>
+		<if test="option1 != null">
+		   option1,
+		</if>
+		<if test="option2 != null">
+		   option2,
+		</if>
+		<if test="option3 != null">
+		   option3,
+		</if>  
+		<if test="option4 != null">
+		   option4,
+		</if>   
+		<if test="answer != null">
+		   answer,
+		</if> 
+		gmt_create, gmt_modified		
+        ) values (
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="stem != null">
+	       #{stem},
+	    </if>
+		<if test="option1 != null">
+	       #{option1},
+	    </if>
+		<if test="option2 != null">
+	       #{option2},
+	    </if>
+		<if test="option3 != null">
+	       #{option3},
+	    </if>
+		<if test="option4 != null">
+	       #{option4},
+	    </if>
+		<if test="answer != null">
+	       #{answer},
+	    </if>
+	    now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityQuestionDO">
+        update activity_question
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="stem != null">
+		        stem = #{stem},
+		    </if> 
+		    <if test="option1 != null">
+		        option1 = #{option1},
+		    </if> 
+		    <if test="option2 != null">
+		        option2 = #{option2},
+		    </if> 
+		    <if test="option3 != null">
+		        option3 = #{option3},
+		    </if>  
+		    <if test="option4 != null">
+		        option4 = #{option4},
+		    </if>  
+		    <if test="answer != null">
+		        answer = #{answer},
+		    </if>
+		    GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_question
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    
+    <delete id="deleteByQuery" parameterType="ActivityQuestionQuery">
+        delete from activity_question
+        <include refid="queryCondition" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_question
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_question
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityQuestionQuery">
+		select count(*) from activity_question
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityQuestionQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_question
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+      
+      
+    <!-- 总数 -->
+    <select id="count" resultType="int" parameterType="ActivityQuestionQuery">
+       SELECT count(*) from activity_question <include refid="queryCondition" />
+	</select>
+	    
+    <!-- 总pv/uv -->
+    <select id="statistics" resultMap="ActivityQuestionVO" parameterType="ActivityQuestionQuery">
+       SELECT a.*, b.name from (SELECT * from activity_question  <include refid="queryCondition" />) a
+		LEFT OUTER JOIN 
+		activity_introduction b ON b.code=a.code 
+        limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	
+</mapper>

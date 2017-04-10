@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityIntroductionDAO">
+    <resultMap type="ActivityIntroductionDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="name" property="name" javaType="java.lang.String" />
+		<result column="introduction" property="introduction" javaType="java.lang.String" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	code,	name,	introduction,	status,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="name != null">
+		        and name = #{name} 
+		    </if> 
+		    <if test="introduction != null">
+		        and introduction = #{introduction} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityIntroductionDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_introduction (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="name != null">
+		   name,
+		</if>
+		<if test="introduction != null">
+		   introduction,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="name != null">
+	       #{name},
+	    </if>
+		<if test="introduction != null">
+	       #{introduction},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityIntroductionDO">
+        update activity_introduction
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="name != null">
+		        name = #{name},
+		    </if> 
+		    <if test="introduction != null">
+		        introduction = #{introduction},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_introduction
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_introduction
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_introduction
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityIntroductionQuery">
+		select count(*) from activity_introduction
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityIntroductionQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_introduction
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	
+	  <select id="queryAll" resultMap="BaseResultMap" parameterType="ActivityIntroductionQuery">
+		select 
+		
+        	<include refid="Base_Column_List" />
+        from activity_introduction
+		<!-- 	<include refid="queryCondition" /> -->
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+	</select>
+    
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE activity_introduction 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	</update>
+    
+</mapper>

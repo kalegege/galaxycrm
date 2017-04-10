@@ -1,0 +1,224 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/recommend/cast/'+${castid})
+##搜索请求
+#set($updateaction=${basePath}+'/management/chanel/updateteamrecommend/'+${castid})
+##分组请求
+#set($groupAction=${basePath}+'/management/chanel/group/'+${castid})
+##回放节目单请求
+#set($menuAction=${basePath}+'/management/chanel/menu/'+${castid})
+##直播节目单请求
+#set($vodAction=${basePath}+'/management/chanel/vod/'+${castid})
+##获取分组链接
+#set($deleteAction=${basePath}+'/management/chanel/redelete/team/'+'{item_id}')
+##插入
+#set($addAction=${basePath}+'/management/chanel/readditem')
+##编辑
+#set($editAction=${basePath}+'/management/chanel/reeditteam/'+'{item_id}')
+
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	<input type="hidden" name="castid" value="$!{castid}" />
+	<input type="hidden" name="keywords" value="123"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+<div class="pageContent">
+	<form method="post" action="$updateaction" class="pageForm required-validate" onsubmit="javascript:buttonsubmit_onclick(${castid});return validateCallback(this, navTabAjaxDone);">
+		<div class="pageFormContent" layoutH="56">
+		<fieldset>
+		<legend>直播推荐</legend>
+		<dl class="group">
+				<dt>频道类型：</dt>
+				<select class="combox${castid}" name="chTeam" ref="w_combox_city" >
+					#foreach($team in ${teamDatas})
+					<option value="${team.id}" #if(${team.id} == $!{recommendDatas.chTeam}) selected #end>${team.bName}</option>
+					#end
+				</select>			
+		</dl>
+		
+		<dl class="chanel">
+			<dt>频道名称：</dt>
+			<dd>
+				<input name="group${castid}.chId" id ="groupid${castid}" value="$!{recommendDatas.chId}" type="hidden" />
+				<input type="hidden" value="$!{recommendDatas.chId}" name="chId"/>
+				<input type="hidden" value="$!{recommendDatas.chName}" name="chName"/>
+				<input class="required" name="group${castid}.chName" type="text" value="$!{recommendDatas.chName}" readonly/>
+				<a class="btnLook"  id="group${castid}" href="$groupAction" onclick="javascript:buttongroup_onclick('${basePath}/management/chanel/group/',${castid});"  lookupGroup="group${castid}">频道名称</a>	
+			</dd>
+		</dl>
+			<p>
+				<label>直播节目单：</label>
+				<input type="hidden" value="$!{recommendDatas.name}" name="name"/>
+				<input type="text" class="required" name="vod${castid}.name" value="$!{recommendDatas.name}"  />
+				<a class="btnLook" id="vod${castid}" href="$vodAction" onclick="javascript:buttonvod_onclick('${basePath}/management/chanel/vod/',${castid});" lookupGroup="vod${castid}">直播节目单</a>		
+			</p>
+			<p>
+				<label>节目单日期：</label>
+				<input type="hidden" value="$!{recommendDatas.stopDate}" name="stopDate"/>
+				<input type="hidden" value="$!{recommendDatas.startDate}" name="startDate"/>
+				<input type="text" readonly="readonly" value="$!{recommendDatas.startDate}" name="vod${castid}.startDate">
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.stopDate}" name="vod${castid}.stopDate" >
+				<span class="info">MM/dd</span>
+			</p>
+			<p>
+				<label>节目单时间：</label>
+				<input type="hidden" value="$!{recommendDatas.stopTime}" name="stopTime"/>
+				<input type="hidden" value="$!{recommendDatas.startTime}" name="startTime"/>
+				<input type="text" readonly="readonly" value="$!{recommendDatas.startTime}" name="vod${castid}.startTime">
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.stopTime}" name="vod${castid}.stopTime" >
+				<span class="info">HH:mm</span>
+			</p>
+			<p>
+				<label>节目单别名：</label>
+				<input type="hidden" size="30" value="$!{recommendDatas.aliasName}" name="aliasName"/>
+				<input type="text" size="30"  value="$!{recommendDatas.aliasName}" id="aliasName${castid}" name="vod${castid}.name"/>
+			</p>
+			<div #if(${castid} == 1) style="display:true;" #else style="display:none;" #end>
+			<dl>
+			<dt>频道图片上传按钮：</dt>
+			<input type="hidden" readonly="readonly" value="$!{recommendDatas.picture}" name="picture"/>
+			<div class="picture" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput${castid}" type="file" name="image" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'200KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:true,
+				onUploadSuccess:function(file, data, respone){$('#showspan').text(file.name);$('#showimg').attr('src',data);$('input[name=pictureName]').val(file.name);$('input[name=picture]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+			</dl>
+			<input type="hidden"  value="$!{recommendDatas.pictureName}" name="pictureName"/>
+			<p>
+			<label>查看图片：</label>
+			<a  href="javascript:label_onclick();"><span id="showspan">$!{recommendDatas.pictureName}</span></a>
+			</p>
+			</div>
+			</fieldset>
+			<fieldset>
+			<legend>直播前推荐</legend>
+			<p>
+				<label>类型：</label>
+				<input type="hidden" value="$!{recommendDatas.bStatus}" name="bStatus"/>
+				<select name="bStatus${castid}" class="bStatus${castid}" onclick="javascript:comboxb_onclick(${castid});">
+					<option value="2">回放</option>
+					<option value="1"  #if($!{recommendDatas.bStatus} == 1) selected #end>点播</option>
+				</select>
+			</p>
+			<div class="bplayback${castid}" #if($!{recommendDatas.bStatus} == 1) style="display:none" #end>
+				<p>
+					<label>回放节目单：</label>
+					<input type="hidden" value="$!{recommendDatas.bName}" name="bName"/>
+					<input type="text" class="required bmenuname${castid}" name="bmenu${castid}.name" value="$!{recommendDatas.bName}" />
+					<a class="btnLook" id="bmenu${castid}" href="$vodAction" onclick="javascript:buttonbmenu_onclick('${basePath}/management/chanel/menu/',${castid});" lookupGroup="bmenu${castid}">回放节目单</a>		
+				</p>
+				<p>
+					<label>回放节目单日期：</label>
+					<input type="hidden" value="$!{recommendDatas.bDate}" name="bDate"/>
+					<input type="text" readonly="readonly" value="$!{recommendDatas.bDate}" name="bmenu${castid}.date" class="textInput">
+					<span class="info">MM/dd</span>
+				</p>
+				<p>
+					<label>回放节目单时间：</label>
+					<input type="hidden" value="$!{recommendDatas.bTime}" name="bTime"/>
+					<input type="text" readonly="readonly" value="$!{recommendDatas.bTime}" name="bmenu${castid}.time" class="textInput">
+					<input type="hidden" value="$!{recommendDatas.bFolder}" name="bFolder"/>
+					<input type="hidden" readonly="readonly" value="$!{recommendDatas.bFolder}" name="bmenu${castid}.folder" class="textInput">
+					<input type="hidden" value="$!{recommendDatas.bAssertid}" name="bAssertid"/>
+					<input type="hidden" readonly="readonly" value="$!{recommendDatas.bAssertid}" name="bmenu${castid}.assetId" class="textInput">
+					<span class="info">HH:mm</span>
+				</p>
+				<p>
+					<label>回放节目单别名：</label>
+					<input type="hidden" size="30" value="$!{recommendDatas.bAliasName}" name="bAliasName" />
+					<input type="text" size="30"  value="$!{recommendDatas.bAliasName}" id="bmenuname${castid}" name="bmenu${castid}.name" />
+				</p>
+				</div>
+			<div class="bplay${castid}" #if($!{recommendDatas.bStatus} == 2) style="display:none" #end>
+				<p>
+					<label>点播名称：</label>
+					<input  type="text" size="30" class="required bplayname${castid}" value="$!{recommendDatas.bVodName}" name="bVodName"/>
+				</p>
+				<p>
+					<label>点播链接：</label>
+					<input type="text" size="30" class="required bplayurl${castid}" value="$!{recommendDatas.bUrl}" name="bUrl"/>
+				</p>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>直播后推荐</legend>
+			<p>
+				<label>类型：</label>
+				<input type="hidden" value="$!{recommendDatas.aStatus}" name="aStatus"/>
+				<select name="aStatus${castid}" class="aStatus${castid}" onclick="javascript:comboxa_onclick(${castid});">
+					<option value="2">回放</option>
+					<option value="1" #if($!{recommendDatas.aStatus} == 1) selected #end>点播</option>
+				</select>
+			</p>
+			<div class="aplayback${castid}" #if($!{recommendDatas.aStatus} == 1) style="display:none" #end>
+			<p>
+				<label>回放列表：</label>
+				<input type="hidden" class="required aplayback1${castid}" name="amenu${castid}.name" value="$!{recommendDatas.aName}" />
+				<input type="hidden" class="required aplayback2${castid}" name="aName" value="$!{recommendDatas.aName}"  />
+				<input type="text" id="amenuname${castid}" class="required aplayback3${castid}" name="vod${castid}.name" value="$!{recommendDatas.aName}" />		
+				<a class="btnLook" id="amenu${castid}" href="$vodAction" onclick="javascript:buttonamenu_onclick('${basePath}/management/chanel/menu/',${castid});" lookupGroup="amenu${castid}">回放节目单</a>
+			</p>
+			<p>
+				<label>回放节目单日期：</label>
+				<input type="hidden" value="$!{recommendDatas.aDate}" name="aDate"/>
+				<input type="text"   readonly="readonly" value="$!{recommendDatas.aDate}" id="amenudate${castid}" name="vod${castid}.startDate" class="textInput">
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.aDate}" name="amenu${castid}.date"  class="textInput">
+				<span class="info">MM/dd</span>
+			</p>
+			<p>
+				<label>回放节目单时间：</label>
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.aTime}" name="amenu${castid}.time" class="textInput">
+				<input type="hidden" value="$!{recommendDatas.aTime}" name="aTime"/>
+				<input type="text"   readonly="readonly" value="$!{recommendDatas.aTime}" id="amenutime${castid}" name="vod${castid}.startTime" class="textInput">
+				<input type="hidden" value="$!{recommendDatas.aFolder}" name="aFolder"/>
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.aFolder}" name="amenu${castid}.folder" class="textInput">
+				<input type="hidden" value="$!{recommendDatas.aAssertid}" name="aAssertid"/>
+				<input type="hidden" readonly="readonly" value="$!{recommendDatas.aAssertid}" name="amenu${castid}.assetId" class="textInput">
+				<span class="info">HH:mm</span>
+			</p>
+			<p>
+				<label>回放节目单别名：</label>
+				<input type="hidden" size="30" value="$!{recommendDatas.aAliasName}" name="aAliasName"/>
+				<input type="text" size="30"  value="$!{recommendDatas.aAliasName}" id="amenualiasname${castid}" name="vod${castid}.name"/>
+			</p>
+			</div>
+			<div class="aplay${castid}" #if($!{recommendDatas.aStatus} == 2) style="display:none" #end>
+				<p>
+					<label>点播名称：</label>
+					<input type="text" size="30" class="required aplayname${castid}" value="$!{recommendDatas.aVodName}" name="aVodName"/>
+				</p>
+				<p>
+					<label>点播链接：</label>
+					<input type="text" size="30" class="required aplayurl${castid}" value="$!{recommendDatas.aUrl}" name="aUrl"/>
+				</p>
+			</div>
+		</fieldset>
+			<div id="picturereview"style="display:none;height:230px;width:300px;">
+				<img name="showimg" id="showimg" src="$!{recommendDatas.picture}" alt="预览图片" /> 
+			</div>
+		</div>
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" id="hiddensubmit${castid}"></button></div></div></li>
+			<li><a class="button" type="submit" href="javascript:;" onclick="testConfirmMsg('$updateaction',${castid})"><span>发布到前台</span></a></li>
+			##<li><div class="buttonActive"><div class="buttonContent"><a href="$updateaction" target="ajaxTodo" title="确定要发布到前台吗?"><span>发布到前台</span></a></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+	</form>
+</div>
+

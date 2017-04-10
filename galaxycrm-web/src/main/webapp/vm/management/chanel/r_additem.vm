@@ -1,0 +1,74 @@
+##插入
+#set($addAction=${basePath}+'/management/chanel/recommend/chanel')
+##插入
+#set($addMenuAction=${basePath}+'/management/chanel/recommend/menu')
+<h2 class="contentTitle">新增推荐信息</h2>
+<form method="post" action="${basePath}/management/chanel/reinsertteam" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>区域：</dt>
+			<dd><select name="regionId" >
+				#foreach($region in $chanelregions)
+					<option value="$region.regionCode" #if($regionCode==$region.regionCode) selected #end >$region.regionName</option>
+				#end
+				</select></dd>
+			</dd>
+		</dl>
+		<dl>
+			<dt>频道号：</dt>
+			<span><input lookupField="linkFilmIds.chId" type="text" name="chId" title="$!{item.chId}" value="$!{item.chId}"/>
+			##<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/chanel/recommend/chanel" width="650" height="500"> ... </a></span>
+		</dl>
+		<dl>
+			<dt>频道名称：</dt>
+			<span><input lookupField="linkFilmIds.chName" type="text" name="chName" title="$!{item.chName}" value="$!{item.chName}"/>
+			<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/chanel/recommend/chanel" width="650" height="500"> ... </a></span>
+		</dl>
+		<dl>
+			<dt>回放节目选择：</dt>
+			<span><input lookupField="linkFilmIds.name" type="text" name="chPlayback" title="$!{item.chPlayback}" value="$!{item.chPlayback}"/>
+			##<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/chanel/recommend/replay" width="650" height="500"> ... </a></span>
+			<a title="选择" lookupgroup="linkFilmIds"  onclick="this.href='${basePath}/management/chanel/recommend/replay/'+$('input[name=chId]').val()"  >...</a></span>
+			##<a title="选择" lookupgroup="linkFilmIds"  onclick="curl()"  >...</a></span>
+		</dl>
+		<dl>
+			<dt>直播节目选择：</dt>
+			<span><input lookupField="linkFilmIds.eventName" type="text" name="chBroadcast" title="$!{item.chBroadcast}" value="$!{item.chBroadcast}"/>
+			##<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/chanel/recommend/broadcast" width="650" height="500"> ... </a></span>
+			<a title="选择" lookupgroup="linkFilmIds"  onclick="this.href='${basePath}/management/chanel/recommend/broadcast/'+$('input[name=chId]').val()"  >...</a></span>
+		</dl>
+		<dl>
+			<dt>点播节目选择：</dt>
+			<dd>
+				<input type="text" name="chPlay" class="required"/>  
+			</dd>
+			<a class="add" target="dialog" rel="raddmenu" mask="true" width="650" height="500" href="$addMenuAction" ><span>添加</span></a>
+		</dl>
+		<dl>
+			<dt>上线标志:</dt>
+			<dd><select name="chStatus" >
+				<option value="1" >1</option>
+				<option value="0" >0</option>
+			</select></dd>
+		</dl>
+		<dl>
+			<dt>频道别名：</dt>
+			<dd>
+				<input type="text" name="chAlias" class="required"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>频道优先级：</dt>
+			<dd>
+				<input type="text" name="chWeight" />  
+			</dd>
+		</dl>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

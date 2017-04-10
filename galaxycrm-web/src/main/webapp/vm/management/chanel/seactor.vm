@@ -1,0 +1,53 @@
+##搜索
+#set ($Action=${basePath}+'/management/chanel/searchactor')
+<form id="pagerForm" method="post" action="$Action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="isFirst" value="false"/>
+	<input type="hidden" name="teamid" value=${teamid}/>
+</form>
+
+<form method="post" action="$Action" onsubmit="$('#keywords').val(encodeURI($('#kw').val())); return dwzSearch(this, 'dialog');">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>艺人名称：</label>
+					<input type="text" id="kw" value="$!{keywords}"/>
+					<input type="hidden" id="keywords" name="keywords" value=""/>
+					<input type="hidden" name="actorid" value=${actorid}/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	<table class="table"  width="100%">
+		<thead>
+			<tr>
+				<th width="100">电视剧</th>
+				<th width="100">电影</th>
+				<th width="150">综艺</th>
+				<th width="100">资讯</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${actorDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td>$!{item.aName}</td>
+				<td>$!{item.bName}</td>
+				<td>$!{item.cName}</td>
+				<td>$!{item.dName}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+</div>

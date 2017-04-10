@@ -1,0 +1,79 @@
+<form id="pagerForm" method="post" action="${basePath}/activity/activityIntroduction/list">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+
+<form method="post" action="${basePath}/activity/votecount/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>活动编号：</label>
+					<select name="keywords">
+						<option value="-1">请选择活动名称</option>
+						#foreach($item in $!{activityIntroductionDatas})
+						<option value="$!{item.code}" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+				</li>
+				
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			
+			#if($shiro.hasPermission("ActivityIntroduction:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="530" height="600" href="${basePath}/activity/votecount/update/{slt_id}" ><span>编辑</span></a></li>
+			#end
+			
+			
+			
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="20">ID</th>
+				<th width="80">活动编号</th>
+				<th width="80">活动名称</th>
+				<th width="160">视频编号</th>
+				<th width="80">视频名称</th>
+				<th width="80">投票数</th>
+				<th width="80">增量</th>
+				<th width="150" orderField="gmt_create" class="#if($page.orderField == 'gmt_create') $page.orderDirection #else ''#end">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.id}</td>
+				<td>$!{item.activityId}</td>
+				<td>$!{item.activityName}</td>
+				<td>$!{item.videoId}</td>
+				<td>$!{item.videoName}</td>
+			    <td>$!{item.count}</td>
+			    <td>$!{item.countAdd}</td>
+				<td>$dateUtil.format($!{item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

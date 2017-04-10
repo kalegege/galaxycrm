@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ZanCountDAO">
+	<resultMap type="ZanCountDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="count_add" property="countAdd" javaType="java.lang.Integer" />
+		<result column="activity_id" property="activityId" javaType="java.lang.String" />
+		<result column="video_id" property="videoId" javaType="java.lang.String" />
+		<result column="video_name" property="videoName" javaType="java.lang.String" />
+		<result column="name" property="activityName" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, count, count_add, activity_id, video_id,video_name, region , gmt_create,
+		gmt_modified
+	</sql>
+
+	<sql id="Base_Where_Clause">
+		WHERE id = #{id}
+	</sql>
+
+	<sql id="queryCondition">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="count != null">
+				and count = #{count}
+			</if>
+			<if test="region != null">
+				and region = #{region}
+			</if>
+			<if test="videoId != null">
+				and video_id = #{videoId}
+			</if>
+			<if test="videoName != null">
+				and video_name = #{videoName}
+			</if>
+			<if test="activityId != null">
+				and activity_id = #{activityId}
+			</if>
+			<if test="countAdd != null">
+				and count_add = #{countAdd}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="insert" parameterType="ZanCountDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into zan_count (
+		<if test="id != null">
+			id,
+		</if>
+		<if test="region != null">
+			region,
+		</if>
+		<if test="count != null">
+			count,
+		</if>
+		<if test="videoId != null">
+			video_id,
+		</if>
+		<if test="videoName != null">
+			video_name,
+		</if>
+		<if test="activityId != null">
+			activity_id,
+		</if>
+		<if test="countAdd != null">
+			count_add,
+		</if>
+		gmt_create, gmt_modified
+		) values (
+		<if test="id != null">
+			#{id},
+		</if>
+		<if test="region != null">
+			#{region},
+		</if>
+		<if test="count != null">
+			#{count},
+		</if>
+		<if test="videoId != null">
+			#{videoId},
+		</if>
+		<if test="videoName != null">
+			#{videoName},
+		</if>
+		<if test="activityId != null">
+			#{activityId},
+		</if>
+		<if test="countAdd != null">
+			#{countAdd},
+		</if>
+		now(), now()
+		)
+	</insert>
+
+	<update id="update" parameterType="ZanCountDO">
+		update zan_count
+		<trim prefix="set">
+			<if test="count != null">
+				count = #{count},
+			</if>
+			<if test="region != null">
+				region = #{region},
+			</if>
+			<if test="videoId != null">
+				video_id = #{videoId},
+			</if>
+			<if test="videoName != null">
+				video_name = #{videoName},
+			</if>
+			<if test="activityId != null">
+				activity_id = #{activityId},
+			</if>
+			<if test="countAdd != null">
+				count_add = #{countAdd},
+			</if>
+			GMT_MODIFIED = now()
+		</trim>
+		<include refid="Base_Where_Clause" />
+	</update>
+
+	<delete id="deleteById">
+		delete from zan_count
+		<include refid="Base_Where_Clause" />
+	</delete>
+
+	<select id="getById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zan_count
+		<include refid="Base_Where_Clause" />
+	</select>
+
+	<select id="getByIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zan_count
+		WHERE id IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="queryCount" resultType="int" parameterType="ZanCountQuery">
+		select count(*) from zan_count
+		<include refid="queryCondition" />
+	</select>
+
+	<select id="queryAll" resultMap="BaseResultMap" parameterType="ZanCountQuery">
+		select
+
+		<include refid="Base_Column_List" />
+		from zan_count
+		<!-- <include refid="queryCondition" /> -->
+		<if test="orderBy != null">
+			order by ${orderBy}
+		</if>
+	</select>
+
+
+<!-- 	<select id="query" resultMap="BaseResultMap" parameterType="ZanCountQuery">
+		select
+		<include refid="Base_Column_List" />
+		from zan_count
+		<include refid="queryCondition" />
+		<if test="orderBy != null">
+			order by ${orderBy}
+		</if>
+		limit #{pageFirstItem}, #{pageSize}
+	</select> -->
+
+	<select id="query" resultMap="BaseResultMap" parameterType="VoteCountQuery">
+		SELECT a.*,b.name from zan_count a LEFT JOIN activity_introduction b on  b.code = a.activity_id
+		<include refid="queryCondition" />
+		<if test="orderBy != null">
+			order by ${orderBy}
+		</if>
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+
+</mapper>

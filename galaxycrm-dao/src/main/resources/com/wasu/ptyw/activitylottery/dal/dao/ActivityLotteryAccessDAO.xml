@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityLotteryAccessDAO">
+    <resultMap type="ActivityLotteryAccessDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stb_id" property="stbId" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="ip" property="ip" javaType="java.lang.String" />
+		<result column="header" property="header" javaType="java.lang.String" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+		<result column="able" property="able" javaType="java.lang.Integer" />
+    </resultMap>
+    
+      <resultMap type="ChoujiangJiluVO" id="choujiangjilutMap">
+		<result column="codeName" property="codeName" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stb_count" property="count" javaType="java.lang.Integer" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="choujiang" property="choujiang" javaType="java.lang.String" />
+    </resultMap>
+    
+    
+    <resultMap type="ActivityLotteryAccessDO" id="StbVisitResultMap">
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="stb_count" property="stb_count" javaType="java.lang.Integer" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	code,	stb_id,	region,	ip,	header,	status,	gmt_create,	gmt_modified,able
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="stbId != null">
+		        and stb_id = #{stbId} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if> 
+		    <if test="ip != null">
+		        and ip = #{ip} 
+		    </if> 
+		    <if test="header != null">
+		        and header = #{header} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		    <if test="able != null">
+		        and able = #{able} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityLotteryAccessDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_lottery_access (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="stbId != null">
+		   stb_id,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>
+		<if test="ip != null">
+		   ip,
+		</if>
+		<if test="header != null">
+		   header,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+			<if test="able != null">
+		   able,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="stbId != null">
+	       #{stbId},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="ip != null">
+	       #{ip},
+	    </if>
+		<if test="header != null">
+	       #{header},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+	    <if test="able != null">
+	       #{able},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityLotteryAccessDO">
+        update activity_lottery_access
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="stbId != null">
+		        stb_id = #{stbId},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="ip != null">
+		        ip = #{ip},
+		    </if> 
+		    <if test="header != null">
+		        header = #{header},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_lottery_access
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_lottery_access
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_lottery_access
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityLotteryAccessQuery">
+		select count(*) from activity_lottery_access
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityLotteryAccessQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_lottery_access
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	
+	
+	<!-- 机顶盒抽奖次数统计 -->
+	  <select id="queryStbVisitCount" resultType="int" parameterType="ActivityLotteryAccessQuery">
+		 select count(*) from (select count,count(count) stb_count from (
+         select stb_id,count(stb_id) count from (
+         select * from (
+		 select ifnull(stb_id,'') stb_id, date_format(gmt_create,'%Y-%m-%d') d from activity_lottery_access 
+		  <include refid="queryCondition" />
+		 ) a group by stb_id,d) b group by stb_id
+		 ) c group by count) f;
+	 </select> 
+	
+	
+	<select id="queryStbVisit" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+		select count,count(count) stb_count ,code ,region from (
+		select stb_id,count(stb_id) count,code,region  from (
+		select * from (
+		select ifnull(stb_id,'') stb_id,date_format(gmt_create,'%Y-%m-%d') d,code,region from activity_lottery_access 
+		<include refid="queryCondition" />
+		) a group by stb_id,d) b group by stb_id
+		) c group by count
+		limit #{pageFirstItem}, #{pageSize}
+	 </select>
+	 
+	 <select id="queryStbVisit2" resultMap="choujiangjilutMap" parameterType="ActivityLotteryAccessQuery">
+		select i.name codeName,i.code,a.region,stb_count,a.choujiang from activity_introduction i RIGHT OUTER JOIN (select count choujiang,count(count) stb_count ,code ,region from (
+		select stb_id,count(stb_id) count,code,region  from (
+		select * from (
+		select ifnull(stb_id,'') stb_id,date_format(gmt_create,'%Y-%m-%d') d,code,region from activity_lottery_access 
+
+		) b <include refid="queryCondition" /> group by stb_id,d) b  group by stb_id HAVING region !=""
+		) c group by count) a
+		on i.code = a.code
+		limit #{pageFirstItem}, #{pageSize}
+	 </select>
+	 
+	 
+	 
+    
+    	<select id="queryStbVisitToExcel" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+			select count,count(count) stb_count ,code,region  from (
+		select stb_id,count(stb_id) count, code,region  from (
+		select * from (
+		select ifnull(stb_id,'') stb_id, code,region ,date_format(gmt_create,'%Y-%m-%d') d from activity_lottery_access 
+       <include refid="queryCondition" />
+		) a group by stb_id,d) b group by stb_id
+		) c group by count
+	 </select>
+	 
+	 
+	 <!-- pv -->
+	  <select id="queryStbVisitCountPV" resultType="int" parameterType="ActivityLotteryAccessQuery">
+	       select count(*) from(
+           select replace(ifnull(region,''),':8080','') region from  activity_lottery_access <include refid="queryCondition" /> group by region,CODE HAVING region != ' ') c
+	   </select> 
+	
+	
+ 	<select id="queryStbVisitPV" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+	   select region,count(1) stb_count ,code  from (
+       select replace(ifnull(region,''),':8080','') region,code,date_format(gmt_create,'%Y-%m-%d') d from activity_lottery_access 
+        <include refid="queryCondition" />
+        ) a group by region  
+       limit #{pageFirstItem}, #{pageSize}
+	 </select> 
+	 
+    <select id="queryStbVisitPV2" resultMap="choujiangjilutMap" parameterType="ActivityLotteryAccessQuery">
+       select i.name codeName,i.code,a.region,stb_count from activity_introduction i RIGHT OUTER JOIN (select replace(ifnull(region,''),':8080','') region,count(1) stb_count ,code  from  activity_lottery_access <include refid="queryCondition" /> group by region,CODE HAVING region != ' ') a
+		on i.code = a.code
+       limit #{pageFirstItem}, #{pageSize}
+	 </select> 
+	 
+	 
+     <select id="queryStbVisitToExcelPV" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+	   select region,count(1) stb_count ,code  from (
+       select replace(ifnull(region,''),':8080','') region,code,date_format(gmt_create,'%Y-%m-%d') d from activity_lottery_access 
+        <include refid="queryCondition" />
+        ) a group by region  
+	 </select>
+    
+    
+    <!-- UV  -->
+     <!--  <select id="queryStbVisitCountUV" resultType="int" parameterType="ActivityLotteryAccessQuery">
+        select count(*) from(
+        select region,count(stb_id) stb_count,code  from (
+	     select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region ,code 
+	     from activity_lottery_access _access 
+         <include refid="queryCondition" />
+           ) a group by region) c
+           
+	   </select>  -->
+	  <select id="queryStbVisitCountUV" resultType="int" parameterType="ActivityLotteryAccessQuery">
+           select count(*) FROM (select i.name codeName,i.code,a.region,stb_count from activity_introduction i RIGHT OUTER JOIN (select count(stb_id) stb_count,region,CODE from (select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region ,code 
+	   from activity_lottery_access ) b <include refid="queryCondition" /> GROUP BY region,CODE HAVING region !=' ') a
+		on i.code = a.code) c
+	   </select> 
+	
+	  <select id="queryStbVisitUV" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+	   select region,count(stb_id) stb_count,code  from (
+	   select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region ,code 
+	   from activity_lottery_access 
+	    <include refid="queryCondition" />
+       ) a group by region 
+       limit #{pageFirstItem}, #{pageSize}
+	 </select>
+	 
+	 <select id="queryStbVisitUV2" resultMap="choujiangjilutMap" parameterType="ActivityLotteryAccessQuery">
+        select i.name codeName,i.code,a.region,stb_count from activity_introduction i RIGHT OUTER JOIN (select count(stb_id) stb_count,region,CODE from (select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region ,code 
+	   from activity_lottery_access ) b <include refid="queryCondition" /> GROUP BY region,CODE HAVING region !=' ') a
+		on i.code = a.code
+       limit #{pageFirstItem}, #{pageSize}
+	 </select> 
+    
+    
+      <select id="queryStbVisitToExcelUV" resultMap="StbVisitResultMap" parameterType="ActivityLotteryAccessQuery">
+	    select region,count(stb_id) stb_count,code  from (
+	   select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region ,code 
+	   from activity_lottery_access 
+	    <include refid="queryCondition" />
+       ) a group by region 
+	 </select>
+    
+    
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE activity_lottery_access 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	 </update>
+    
+</mapper>

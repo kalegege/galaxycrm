@@ -1,0 +1,124 @@
+##保存
+#set( $saveAction= ${basePath}+'/management/cinema/films/filmSection/'+${secId}+'/editSave')
+
+<style>.pageFormContent > dl{ width:100%;}
+.pageFormContent > dl ll{padding-left: 5px;}
+.pageFormContent > dl span{padding-right: 20px;}
+.pageFormContent > dl span .textInput{ float:none;}
+.pageFormContent dd { display: block;  line-height: 21px;  width: 320px;  float: left;}
+</style>
+
+<h2 class="contentTitle">$!{filmItem.name}[$!{filmItem.assetId}](#if($!filmItem.clpsStatus=="1")上线#else下线#end)</h2>
+<form method="post" action="${saveAction}" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<input type="hidden" name="id" value="${filmSectionItem.id}"/>
+	<input type="hidden" name="filmId" value="${filmSectionItem.filmId}"/>
+	<div class="pageFormContent" layoutH="97" >
+		<dl>
+			<dt>别名：</dt>
+			<dd><input type="text" name="aliasName" title="$!{filmItem.aliasName}" value="$!{filmItem.aliasName}"/> </dd>
+		</dl>
+		<dl>
+			<dt>类型：</dt>
+			<dd>$!{filmItem.leixing}</dd>
+		</dl>
+		<dl>
+			<dt>图片：</dt>
+			<dd>
+			#if($secId==1 || $secId==2)
+			<span>
+			#if($!{filmItem.haibaoUrl} && $!{filmItem.haibaoUrl} != '')
+				<a href="$!{filmItem.haibaoUrl}" target="blank" >海报</a>
+			#else
+				海报(无)	
+			#end
+			</span>
+			#end
+			
+			#if($secId==1)
+			<span>
+			#if($!{filmItem.biaotiUrl} && $!{filmItem.biaotiUrl} != '')
+				<a href="$!{filmItem.biaotiUrl}" target="blank" >片名图</a>
+			#else
+				片名图(无)	
+			#end
+			</span>
+			#end
+			
+			#if($secId==1)
+			<span>
+			#if($!{filmItem.caotuUrl} && $!{filmItem.caotuUrl} != '')
+				<a href="$!{filmItem.caotuUrl}" target="blank" >简介图</a>
+			#else
+				简介图(无)	
+			#end
+			</span>
+			#end
+			
+			#if($secId==3)
+			<span>
+			#if($!{filmItem.juzhaoUrl} && $!{filmItem.juzhaoUrl} != '')
+				<a href="$!{filmItem.juzhaoUrl}" target="blank" >剧照</a>
+			#else
+				剧照(无)	
+			#end
+			</span>
+			#end
+			
+			#if($secId==1 || $secId==2)
+			<span>
+			#if($!{filmItem.beijingUrl} && $!{filmItem.beijingUrl} != '')
+				<a href="$!{filmItem.beijingUrl}" target="blank" >背景图</a>
+			#else
+				背景图(无)	
+			#end
+			</span>
+			#end
+			#if($secId==1)
+			<span class="info">&nbsp;&nbsp;说明：片名图->标题图、简介图->草图</span>
+			#end
+			</dd>
+		</dl>
+
+#if($secId==1 || $secId==2)
+		<dl>
+			<dt>定价(分):</dt>
+			<dd><input type="text" name="aliasPrice" value="$!{filmItem.aliasPrice}" title="$!{filmItem.aliasPrice}" size="4" maxlength="4" /></dd>
+		</dl>
+#end
+#if($secId==3)
+		<dl>
+			<dt>微信购票编码：</dt>
+			<dd><input type="text" name="weixinCode" title="$!{filmItem.weixinCode}" value="$!{filmItem.weixinCode}"/></dd>
+		</dl>
+		<dl>
+			<dt>淘宝购票编码：</dt>
+			<dd><input type="text" name="taobaoCode" title="$!{filmItem.taobaoCode}" value="$!{filmItem.taobaoCode}"/></dd>
+		</dl>
+#end
+		<dl>
+			<dt>状态:</dt>
+			<dd><select name="status" style="float:none;">
+				<option value="0" #if($!filmSectionItem.status=='0') selected #end >下线</option>
+				<option value="1" #if($!filmSectionItem.status=='1') selected #end >上线</option>
+			</select></dd>
+		</dl>
+		<dl>			
+			<dt>优先级：</dt>
+			<dd><input type="text" name="priority" value="$!{filmSectionItem.priority}" title="$!{filmSectionItem.priority}" size="4" maxlength="4" /></dd>
+		</dl>	
+		#if($secId==2)
+		<dl>			
+			<dt>相关预告片：</dt>
+			<dd><input lookupField="linkFilmIds.id" type="text" name="linkFilmIds" title="$!{filmItem.linkFilmIds}" value="$!{filmItem.linkFilmIds}"/>
+				<a title="选择" lookupgroup="linkFilmIds" href="${basePath}/management/cinema/films/trailer" width="650" height="500"> … </a></dd>
+		</dl>
+		#end		
+	</div>
+	
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

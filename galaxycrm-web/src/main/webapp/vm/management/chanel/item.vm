@@ -1,0 +1,113 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/item')
+##同步
+#set($syncAction=${basePath}+'/management/chanel/updateAll')
+##删除
+#set($deleteAction=${basePath}+'/management/chanel/delete/item/'+'{item_id}')
+##插入
+#set($addAction=${basePath}+'/management/chanel/additem')
+##编辑
+#set($editAction=${basePath}+'/management/chanel/edititem/'+'{item_id}')
+
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	<input type="hidden" id="chanelregion" name="chanelregion" value="$!{chanelregion}" />
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+
+<div class="pageContent">
+	<form rel="pagerForm" onsubmit="return navTabSearch(this);" action="$action" method="post">
+	<div class="panelBar">
+		<ul class="toolBar">
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="650" height="500" href="$addAction" ><span>新增</span></a></li>
+				##<li><a class="edit" target="ajaxTodo" href="$syncAction" title="确认要同步?" callback="function(){}"><span>同步</span></a></li>
+				<li><a class="edit" target="ajaxTodo" href="$syncAction" title="确认要同步?"><span>同步</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="600" height="500" href="$editAction" ><span>编辑</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="$deleteAction" title="确认要删除?"><span>删除</span></a></li>
+				<li><input type="text" name="keywords" value="$!{keywords}"/></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
+		</ul>
+	</div>
+	</form>	
+		
+	
+<table class="table" layoutH="76" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				##<th width="40">ID</th>
+				##<th width="220">频道号</th>
+				<th width="100">频道名称</th>
+				<th width="100">别名</th>
+				<th width="100">终端频道号</th>
+				##<th width="100">区域号</th>
+				##<th width="60">回放标志</th>
+				##<th width="60">直播标志</th>
+				<th width="60">高清标志</th>
+				##<th width="60">频道类型</th>
+				##<th width="180">直播播放地址</th>
+				##<th width="100">频道台标URL</th>
+				##<th width="100">频道描述</th>
+				##<th width="120">高清频道号</th>
+				##<th width="120">频点</th>
+				##<th width="120">调制方式</th>
+				##<th width="120">符号率</th>
+				##<th width="120">业务号</th>
+				##<th width="120">CA厂商号</th>
+				##<th width="120">授权号</th>
+				<th width="120">台标图片</th>
+			</tr>
+		</thead>
+		<tbody id="item">
+			#foreach($item in ${itemDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td><input type="checkbox" name="filmIds" value="${item.chlogourl}"></td>
+				##<td>$!{item.id}</td>
+				##<td>$!{item.chId}</td>
+				<td>$!{item.chName}</td>
+				<td>$!{item.byname}</td>
+				<td>$!{item.chNo}</td>
+				##<td>$!{item.regionId}</td>
+				##<td>$!{item.isPlayback}</td>
+				##<td>$!{item.isBoardcast}</td>
+				##<td>$!{item.ishdch}</td>
+				<td>#if ($!{item.chtype} == 1) 高清 #else 标清 #end</td>
+				##<td>$!{item.playurl}</td>
+				##<td>$!{item.chlogourl}</td>
+				##<td>$!{item.desc}</td>
+				##<td>$!{item.hdchid}</td>
+				##<td>$!{item.freq}</td>
+				##<td>$!{item.mod}</td>
+				##<td>$!{item.rate}</td>
+				##<td>$!{item.sid}</td>
+				##<td>$!{item.casid}</td>
+				##<td>$!{item.capid}</td>
+				##<td>$dateUtil.format(${item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+				##<td>$!{item.chlogoName}</td>
+				<td><a href="javascript:void(0);"onclick="item_onclick()" ><span>$!{item.chlogoName}</span></a></td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+			<div id="picturereviewitem"style="display:none;position: absolute; right: 30px; top: 50px;border: 1px solid #000;background:#fff">
+				<img name="showimg" id="showimgitem" src="" alt="预览图片" /> 
+			</div>
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>
+
+<script type="text/javascript">
+function dbltable(target,rel){
+	if(target == 'film_id'){
+		var url="$editAction2";
+		url = url + rel;
+		var options = { max:false, mask:true, width: 600, height: 500,maxable:true,minable:true,fresh:true,resizable:true,drawable:true};
+		$.pdialog.open(url,"lookup2organization", "编辑", options);
+	} 
+}
+</script>

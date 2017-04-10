@@ -1,0 +1,69 @@
+<form id="pagerForm" method="post" action="${basePath}/activity/lottery/list">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+
+<form method="post" action="${basePath}/activity/lottery/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>活动编号：</label>
+					<input type="text" name="keywords" value="$!{keywords}"/>
+				</li>
+				<li>
+					<label>机顶盒号：</label>
+					<input type="text" name="keywords2" value="$!{keywords2}"/>
+				</li>
+				<li>
+					<label>等级统计：</label>
+					<select name="prize">
+						<option value="-1">请选择查询条件</option>
+						<option value="99" #if($!status=='0') selected #end >1.2.3等奖统计查询</option>
+					</select>
+				</li>
+				
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="120">区域编号</th>
+				<th width="120">奖品级别</th>
+				<th width="120">奖品名称</th>
+				<th width="120">中奖数量</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.region}</td>
+				<td>$!{item.prize}</td>
+				<td>$!{item.prizeTxt}</td>
+				<td>$!{item.count}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

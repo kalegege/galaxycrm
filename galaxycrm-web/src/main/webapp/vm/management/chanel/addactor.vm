@@ -1,0 +1,141 @@
+##插入
+#set($addAction=${basePath}+'/management/chanel/readditem')
+##搜索
+#set ($searchAction=${basePath}+'/management/chanel/searchsactor')
+<h2 class="contentTitle">新增艺人信息</h2>
+<form method="post" action="${basePath}/management/chanel/insertactor" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>艺人姓名：</dt>
+			<dd>
+				<input type="text" name="actor.orgName" id="orgName" class="required" value="$!{keywords}"/>
+				<input type="hidden" name="name" id="name" class="required" value="$!{keywords}"/>
+				<a class="btnLook" id="addactor" onclick="javascript:buttonaddactor_onclick('${basePath}/management/chanel/searchsactor');" lookupGroup="actor">查询艺人</a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>生日：</dt>
+			<dd>
+				<input type="text" name="birth" class="date" />
+				<a class="inputDateButton" href="javascript:;">选择</a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>性别：</dt>
+			<dd>
+				<input type="text" name="sex" class="required" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>简介：</dt>
+			<dd>
+				<input type="text" name="des" class="required"/>
+			</dd>
+		</dl>
+		<dl id="imageview">
+			<dt>查看头像：</dt>
+			<dd>
+			<a  href="javascript:image1_onclick();"><span id="imagespan" ></span></a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>头像图片：</dt>
+			<input type="hidden" readonly="readonly"  name="imageName"/>
+			<input type="hidden" readonly="readonly"  name="image" class="required"/>
+			<input id="sessionId" type="hidden" value="${pageContext.session.id}"/> 
+			<div class="picture" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput1" type="file" name="image" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'200KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:true,
+				onUploadSuccess:function(file, data, respone){$('#showimage').attr('src',data);$('#imagespan').text(file.name);$('input[name=imageName]').val(file.name);$('input[name=image]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+		</dl>
+		<dl id="posterview">
+			<dt>查看海报：</dt>
+			<dd>
+			<a  href="javascript:poster1_onclick();"><span id="posterspan"></span></a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>海报图片：</dt>
+			<input type="hidden" readonly="readonly"  name="posterName"/>
+			<input type="hidden" readonly="readonly"  name="poster" class="required"/>
+			<div class="picture" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput2" type="file" name="poster" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'200KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:true,
+				onUploadSuccess:function(file, data, respone){$('#showposter').attr('src',data);$('#posterspan').text(file.name);$('input[name=posterName]').val(file.name);$('input[name=poster]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+		</dl>
+		<dl id="backgroundview">
+			<dt>查看背景：</dt>
+			<dd>
+			<a  href="javascript:background1_onclick();"><span id="backgroundspan"></span></a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>背景图片：</dt>
+			<input type="hidden" readonly="readonly"  name="backgroundName"/>
+			<input type="hidden" readonly="readonly"  name="background" class="required"/>
+			<div class="picture" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput3" type="file" name="background" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'200KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:true,
+				onUploadSuccess:function(file, data, respone){$('#showbackground').attr('src',data);$('#backgroundspan').text(file.name);$('input[name=backgroundName]').val(file.name);$('input[name=background]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+		</dl>
+		<dl>
+			<dt>是否推荐到首页:</dt>
+			<dd>
+				<label><input type="radio" name="status" value="0" checked="true"/>否</label>
+				<label><input type="radio" name="status" value="1" />是</label>
+			</dd>
+		</dl>
+		<div id="imagereview1"style="display:none;height:230px;position: absolute;right: 30px; top: 20px;">
+				<img  id="showimage" src="$!{recommendDatas.picture}" alt="预览图片" /> 
+		</div>
+		<div id="posterreview1"style="display:none;height:230px;width:300px;">
+				<img  id="showposter" src="$!{recommendDatas.picture}" alt="预览图片" /> 
+		</div>
+		<div id="backgroundreview1"style="display:none;height:230px;width:300px;;position: absolute;right: 30px; button: 200px;">
+				<img  id="showbackground" src="$!{recommendDatas.picture}" alt="预览图片" /> 
+		</div>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="javascript:addactor_onclick();">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

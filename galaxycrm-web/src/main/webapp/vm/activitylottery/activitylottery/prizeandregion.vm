@@ -1,0 +1,87 @@
+<script>
+$(function(){
+    var params;
+    $("#pagerForm2 select[name='prize']").change(function(){
+       params=$(this).children('option:selected').val();
+    });
+   
+    $("#a2").click(function(){
+     document.location = "/galaxycrm/activity/lottery/exportActivityLottery2?prize=" + params;
+ });
+
+});
+</script>
+
+<form id="pagerForm" method="post" action="${basePath}/activity/lottery/list">
+     <input type="hidden" name="region" value="${region}" />
+     <input type="hidden" name="prize" value="${prize}" />
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+
+<form id="pagerForm2" method="post" action="${basePath}/activity/lottery/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+			   
+				<li>
+					<label>统计查询aa：</label>
+					<select name="prize">
+						<option value="">请选择查询条件</option>
+						<option value="99" #if($!prize=='99') selected #end >各地区奖品等级统计</option>
+					    <option value="100" #if($!prize=='100') selected #end >各地区中奖分布</option>
+					</select>
+				</li>
+				<li>
+					<input type="hidden" type="text" name="region" value="$!{region}" />
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("ActivityIntroduction:save"))
+				<li><a class="add" id="a2" rel="lookup2organization" mask="true" width="530" height="380" ><span>导出</span></a></li>
+			#end
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="120">区域编号</th>
+				<th width="120">中奖数量</th>
+				<th width="120">奖品级别</th>
+				<th width="120">奖品名称</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.region}</td>
+				<td>$!{item.count}</td>
+				<td>$!{item.prize}</td>
+				<td>$!{item.prizeTxt}</td>
+				
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

@@ -1,0 +1,44 @@
+##搜索请求
+#set($action1=${basePath}+'/management/chanel/items/'+$!{id})
+<div class="pageContent"  >
+<form id="pagerForm" method="post" action="$action1">
+		<input type="hidden" name="pageNum" value="${page.pageNum}" />
+		<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+		<input type="hidden" id="itemid" name="id" value="$!{id}"/>
+		<input type="hidden" name="chanelregion" value="$!{chanelregion}" />
+		</form>
+<table class="table" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				<th width="100">频道名称</th>
+				<th width="100">别名</th>
+				<th width="50">频道类型</th>
+				<th width="180">台标图片</th>
+				<th width="80">优先级</th>
+			</tr>
+		</thead>
+		<tbody id="initem">
+			#foreach($item in ${itemDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td>
+				<input id="checkbox${item.id}" type="checkbox" name="filmIds" value="${item.chlogourl}">
+				<input type="hidden" name="filmIds" value="${item.id}">
+				</td>
+				<td>$!{item.id}</td>
+				<td>$!{item.chName}</td>
+				<td>$!{item.byname}</td>
+				<td>#if ($!{item.chtype} == 1) 高清 #else 标清 #end</td>
+				<td><a href="javascript:void(0);"onclick="initem_onclick(${item.id})" ><span>$!{item.chlogoName}</span></a></td>
+				<td>$!{item.orderId}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+			<div id="picturereviewinitem"style="display:none;position: absolute; right: 30px; top: 50px;border: 1px solid #000;background:#fff">
+				<img name="showimg" id="showimginitem" src="" alt="预览图片" /> 
+			</div>
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar3.vm")
+</div>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessEveryPageDAO">
+
+      <resultMap type="ActivityAccessEveryPageDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="pv" property="pv" javaType="java.lang.Integer" />
+		<result column="uv" property="uv" javaType="java.lang.Integer" />
+		<result column="date" property="date" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="pagename" property="pagename" javaType="java.lang.String" />
+		<result column="type" property="type" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+     </resultMap>
+      
+     <resultMap type="ActivityAccessEveryPageVO" id="ActivityAccessEveryPageVO">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="pv" property="pv" javaType="java.lang.Integer" />
+		<result column="uv" property="uv" javaType="java.lang.Integer" />
+		<result column="date" property="date" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="name" property="name" javaType="java.lang.String" />
+		<result column="pagename" property="pagename" javaType="java.lang.String" />
+     </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	code, region, pv, uv,type, date,pagename, gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if>  
+		    <if test="pv != null">
+		        and pv = #{pv} 
+		    </if>   
+		    <if test="uv != null">
+		        and uv = #{uv} 
+		    </if>     
+		    <if test="type != null">
+		        and type = #{type} 
+		    </if>   
+		    <if test="date != null">
+		        and date = #{date} 
+		    </if>   
+		    <if test="pagename != null">
+		        and pagename = #{pagename} 
+		    </if>
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityAccessEveryPageDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_access_everypage (
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="pv != null">
+		   pv,
+		</if>
+		<if test="uv != null">
+		   uv,
+		</if>
+		<if test="date != null">
+		   date,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>  
+		<if test="type != null">
+		   type,
+		</if>   
+		<if test="pagename != null">
+		   pagename,
+		</if> 
+		gmt_create, gmt_modified		
+        ) values (
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="pv != null">
+	       #{pv},
+	    </if>
+		<if test="uv != null">
+	       #{uv},
+	    </if>
+		<if test="date != null">
+	       #{date},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="type != null">
+	       #{type},
+	    </if>
+		<if test="pagename != null">
+	       #{pagename},
+	    </if>
+	    now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityAccessEveryPageDO">
+        update activity_access_everypage
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="pv != null">
+		        pv = #{pv},
+		    </if> 
+		    <if test="uv != null">
+		        uv = #{uv},
+		    </if> 
+		    <if test="date != null">
+		        date = #{date},
+		    </if>  
+		    <if test="type != null">
+		        type = #{type},
+		    </if>  
+		    <if test="pagename != null">
+		        pagename = #{pagename},
+		    </if>
+		    GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_access_everypage
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    
+    <delete id="deleteByQuery" parameterType="ActivityAccessEveryPageQuery">
+        delete from activity_access_everypage
+        <include refid="queryCondition" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access_everypage
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access_everypage
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityAccessEveryPageQuery">
+		select count(*) from activity_access_everypage
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityAccessEveryPageQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_access_everypage
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+      
+      
+    <!-- 总数 -->
+    <select id="count" resultType="int" parameterType="ActivityAccessEveryPageQuery">
+       SELECT count(*) from activity_access_everypage <include refid="queryCondition" />
+	</select>
+	    
+    <!-- 总pv/uv -->
+    <select id="statistics" resultMap="ActivityAccessEveryPageVO" parameterType="ActivityAccessEveryPageQuery">
+    SELECT a.id,a.code,a.region,a.pv,a.uv,a.date,a.type,a.gmt_create,a.gmt_modified,a.name,(CASE WHEN b.realname IS NULL  then a.pagename ELSE b.realname END) pagename from ( 
+       SELECT a.*, b.name from (SELECT * from activity_access_everypage  <include refid="queryCondition" />) a
+		LEFT OUTER JOIN 
+		activity_introduction b ON b.code=a.code 
+        order by date desc,pv desc
+        limit #{pageFirstItem}, #{pageSize}
+        ) a
+	LEFT OUTER JOIN 
+	activity_pagename_realname b on a.pagename=b.pagename
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityAccessNewDAO">
+    <resultMap type="ActivityAccessNewDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stb_id" property="stbId" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="platform" property="platform" javaType="java.lang.String" />
+		<result column="version" property="version" javaType="java.lang.String" />
+		<result column="referer" property="referer" javaType="java.lang.String" />
+		<result column="ip" property="ip" javaType="java.lang.String" />
+		<result column="user_agent" property="userAgent" javaType="java.lang.String" />
+		<result column="cookie" property="cookie" javaType="java.lang.String" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+     <resultMap type="ActivityAccessNewDO" id="queryByRegionAllResultMap">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="code" property="code" javaType="java.lang.String" />
+     </resultMap>
+     
+      <resultMap type="ActivityAccessNewDO" id="ActivityAccessEveryPageDO">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="pagename" property="pagename" javaType="java.lang.String" />
+     </resultMap>
+ 
+    
+    <sql id="Base_Column_List">
+	id,	code,	stb_id,	region,	platform,	version,	referer,	ip,	user_agent,	cookie,	status,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="stbId != null">
+		        and stb_id = #{stbId} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if> 
+		    <if test="platform != null">
+		        and platform = #{platform} 
+		    </if> 
+		    <if test="version != null">
+		        and version = #{version} 
+		    </if> 
+		    <if test="referer != null">
+		        and referer = #{referer} 
+		    </if> 
+		    <if test="ip != null">
+		        and ip = #{ip} 
+		    </if> 
+		    <if test="userAgent != null">
+		        and user_agent = #{userAgent} 
+		    </if> 
+		    <if test="cookie != null">
+		        and cookie = #{cookie} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityAccessDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_access (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="stbId != null">
+		   stb_id,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>
+		<if test="platform != null">
+		   platform,
+		</if>
+		<if test="version != null">
+		   version,
+		</if>
+		<if test="referer != null">
+		   referer,
+		</if>
+		<if test="ip != null">
+		   ip,
+		</if>
+		<if test="userAgent != null">
+		   user_agent,
+		</if>
+		<if test="cookie != null">
+		   cookie,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="stbId != null">
+	       #{stbId},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="platform != null">
+	       #{platform},
+	    </if>
+		<if test="version != null">
+	       #{version},
+	    </if>
+		<if test="referer != null">
+	       #{referer},
+	    </if>
+		<if test="ip != null">
+	       #{ip},
+	    </if>
+		<if test="userAgent != null">
+	       #{userAgent},
+	    </if>
+		<if test="cookie != null">
+	       #{cookie},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityAccessDO">
+        update activity_access
+        <trim prefix="set">
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="stbId != null">
+		        stb_id = #{stbId},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="platform != null">
+		        platform = #{platform},
+		    </if> 
+		    <if test="version != null">
+		        version = #{version},
+		    </if> 
+		    <if test="referer != null">
+		        referer = #{referer},
+		    </if> 
+		    <if test="ip != null">
+		        ip = #{ip},
+		    </if> 
+		    <if test="userAgent != null">
+		        user_agent = #{userAgent},
+		    </if> 
+		    <if test="cookie != null">
+		        cookie = #{cookie},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_access
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_access
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityAccessQuery">
+		select count(*) from activity_access
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityAccessQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_access
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	
+		<select id="queryByNoPage" resultMap="BaseResultMap" parameterType="ActivityAccessQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_access
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		
+	</select>
+	
+	<!-- 区域总访问量统计 -->
+	<select id="queryByRegionAll" resultMap="queryByRegionAllResultMap" parameterType="ActivityAccessQuery">
+        select region,count(stb_id) count ,code from (
+	     select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region  ,code from activity_access 
+        <include refid="queryCondition" />
+        ) a group by region 
+        limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+		<select id="queryByRegionAllToExcel" resultMap="queryByRegionAllResultMap" parameterType="ActivityAccessQuery">
+		 select region,count(stb_id) count ,code from (
+	     select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region  ,code from activity_access 
+         <include refid="queryCondition" />
+         ) a group by region
+	    </select>
+	 
+    <select id="queryqueryByRegionAllCount" resultType="int" parameterType="ActivityAccessQuery">
+             select count(*) from(
+            select region,count(stb_id) count from (
+	        select distinct ifnull(stb_id,'') stb_id,replace(ifnull(region,''),':8080','') region  from activity_access
+	        <include refid="queryCondition" />
+          ) a group by region) c
+	</select> 
+	
+    <!-- 区域stb_id访问量统计
+    <select id="queryByRegionAndStbIDCount" resultType="int" parameterType="ActivityAccessQuery">
+			select count(*) from(
+          select replace(ifnull(region,''),':8080','') region from (
+          select region from activity_access
+          <include refid="queryCondition" />
+          ) a group by region HAVING region !='') c
+	</select>  -->
+	
+	 <select id="queryByRegionAndStbIDCount" resultType="int" parameterType="ActivityAccessQuery">
+			select count(*) from(
+          select replace(ifnull(region,''),':8080','') region from activity_access
+          <include refid="queryCondition" />
+           group by region HAVING region !='') c
+	</select> 
+	
+	<!-- 全部检索时使用
+	 <select id="queryByRegionAndStbIDCountAll" resultType="int" parameterType="ActivityAccessQuery">
+		select count(*) from(
+        select replace(ifnull(region,''),':8080','') region from activity_access
+        group by region HAVING region !='') c
+	</select> 
+	
+	<select id="queryByRegionAndStbIDAll" resultMap="queryByRegionAllResultMap" parameterType="ActivityAccessQuery">
+		select  replace(ifnull(region,''),':8080','') region,count(1) count,code from 
+		activity_access group by region  HAVING region !=''
+     	limit #{pageFirstItem}, #{pageSize}
+	</select>-->
+	
+	
+    <select id="queryByRegionAndStbID" resultMap="queryByRegionAllResultMap" parameterType="ActivityAccessQuery">
+		select  replace(ifnull(region,''),':8080','') region,count(1) count,code from activity_access
+        <include refid="queryCondition" />
+       group by region  HAVING region !=''
+     limit #{pageFirstItem}, #{pageSize}
+	</select>
+    
+    <select id="queryByRegionAndStbIDToExcel" resultMap="queryByRegionAllResultMap" parameterType="ActivityAccessQuery">
+		select  replace(ifnull(region,''),':8080','') region,count(1) count,code from activity_access
+        <include refid="queryCondition" />
+       group by region  HAVING region !=''
+	</select>
+    
+    
+    
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE activity_access 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	</update>
+	
+	<!-- 每一个页面的访问量统计pv -->
+	  <select id="queryByRegionEveryPageCount" resultType="int" parameterType="ActivityAccessQuery">
+			  select count(*) from (select replace(ifnull(region,''),':8080','') region, pagename from activity_access_new 
+            <include refid="queryCondition" />
+              group by  code,pagename,region HAVING region !='') c
+	  </select> 
+	
+	
+    <select id="queryByRegionEveryPage" resultMap="ActivityAccessEveryPageDO" parameterType="ActivityAccessQuery">
+		select b.name code, a.count,a.region,a.pagename from 
+		(select code, count(1) count, replace(ifnull(region,''),':8080','') region, pagename from activity_access_new
+          <include refid="queryCondition" />
+        group by  code,pagename,region HAVING region !=''
+        limit #{pageFirstItem}, #{pageSize} ) a
+         Left outer join activity_introduction b on a.code=b.code 
+	</select>
+	
+	<!-- 每一个页面的访问量统计uv -->
+	  <select id="queryByRegionEveryPageUVCount" resultType="int" parameterType="ActivityAccessQuery">
+			  select count(*) from (select replace(ifnull(region,''),':8080','') region, pagename from activity_access_new 
+            <include refid="queryCondition" />
+              group by  code,pagename,region HAVING region !='') c
+	  </select> 
+	
+	<select id="queryByRegionEveryPageUV" resultMap="ActivityAccessEveryPageDO" parameterType="ActivityAccessQuery">
+		select b.name code, a.count,a.region,a.pagename from 
+		 (select code,count(1) count, replace(ifnull(region,''),':8080','') region ,pagename from (
+         select distinct code,stb_id,region, pagename 
+         from activity_access_new
+             <include refid="queryCondition" />
+          ) a  group by  code,pagename,region HAVING region !=''
+         limit #{pageFirstItem}, #{pageSize} ) a
+         Left outer join activity_introduction b on a.code=b.code 
+	</select>
+	
+		<!--
+    <select id="queryByRegionEveryPageUV" resultMap="ActivityAccessEveryPageDO" parameterType="ActivityAccessQuery">
+		 select count(1) count, replace(ifnull(region,''),':8080','') region ,pagename from (
+         select distinct stb_id,region, pagename 
+         from activity_access_new
+             <include refid="queryCondition" />
+          ) a  group by  pagename,region HAVING region !=''
+         limit #{pageFirstItem}, #{pageSize}
+	</select>
+    -->
+</mapper>

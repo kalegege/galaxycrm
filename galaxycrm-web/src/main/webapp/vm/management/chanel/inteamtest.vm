@@ -1,0 +1,79 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/b')
+##添加
+#set($addAction=${basePath}+'/management/chanel/updateAll')
+##选择
+#set($chAction=${basePath}+'/management/chanel/choose')
+##item选择
+#set($itemAction=${basePath}+'/management/chanel/items/'+'{team_id}')
+
+ 
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+
+<div class="pageContent" id="pageContent">
+
+		<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("Cinema_films:save"))
+				<li><a class="add" target="ajax" rel="jbsxBox3"  mask="true" width="650" height="500" onclick="this.href='${basePath}/management/chanel/items/'+$('#jbsxBox2 .selected').attr('rel')" href="$itemAction" ><span>查询</span></a></li>
+			#end
+				<li><a class="add" target="ajaxTodo" href="$addAction" title="确认要同步?" callback="function(){}"><span>同步</span></a></li>
+			#if($shiro.hasPermission("Cinema_films:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="650" height="500" href="$addAction" ><span>添加</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="600" height="500" href="$editAction" ><span>编辑</span></a></li>
+			#end
+			#if($shiro.hasPermission("Cinema_films:delete"))
+				<li><a class="delete" target="ajaxTodo"  onclick="this.href='${basePath}/management/chanel/delete/team/'+$('.gridTbody .selected').attr('rel')" href="$deleteAction" title="确认要删除?" callback="function(){}"><span>删除</span></a></li>
+			#end
+		</ul>
+		</div>
+	
+<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="filmIds" />全选</label></th>
+				<th width="40">ID</th>
+				<th width="60">bid</th>
+				<th width="180">bname</th>
+				<th width="100">regionid</th>
+				<th width="120">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${filmDatas})
+			  <tr target="team_id" rel="${item.id}">
+				<td><input type="checkbox" name="filmIds" value="${item.id}"></td>
+				<td>${item.id}</td>
+				<td>${item.bId}</td>
+				<td>${item.bName}</td>
+				<td>${item.regionId}</td>
+				<td>$dateUtil.format(${item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+	</tbody>
+</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar2.vm")
+</div>
+
+<script type="text/javascript">
+function dbltable(target,rel){
+	if(target == 'film_id'){
+		var url="$editAction2";
+		url = url + rel;
+		var options = { max:false, mask:true, width: 600, height: 500,maxable:true,minable:true,fresh:true,resizable:true,drawable:true};
+		$.pdialog.open(url,"lookup2organization", "编辑", options);
+	} 
+}
+</script>

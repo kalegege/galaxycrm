@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityLotteryDAO">
+    <resultMap type="ActivityLotteryDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="prize_code" property="prizeCode" javaType="java.lang.String" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="stb_id" property="stbId" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="prize" property="prize" javaType="java.lang.Integer" />
+		<result column="prize_txt" property="prizeTxt" javaType="java.lang.String" />
+		<result column="mobile" property="mobile" javaType="java.lang.String" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+      <resultMap type="ActivityLotteryDO" id="queryByRegionResultMap">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="prize" property="prize" javaType="java.lang.Integer" />
+		<result column="prize_txt" property="prizeTxt" javaType="java.lang.String" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="code" property="code" javaType="java.lang.String" />
+    </resultMap>
+    
+     <resultMap type="ActivityLotteryDO" id="queryByRegionCountAllResultMap">
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="code" property="code" javaType="java.lang.String" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	prize_code,	code,	stb_id,	region,	prize,	prize_txt,	mobile,	status,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="prizeCode != null">
+		        and prize_code = #{prizeCode} 
+		    </if> 
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="stbId != null">
+		        and stb_id = #{stbId} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if> 
+		    <if test="prize != null">
+		        and prize = #{prize} 
+		    </if> 
+		    <if test="prizeTxt != null">
+		        and prize_txt = #{prizeTxt} 
+		    </if> 
+		    <if test="mobile != null">
+		        and mobile = #{mobile} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityLotteryDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_lottery (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="prizeCode != null">
+		   prize_code,
+		</if>
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="stbId != null">
+		   stb_id,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>
+		<if test="prize != null">
+		   prize,
+		</if>
+		<if test="prizeTxt != null">
+		   prize_txt,
+		</if>
+		<if test="mobile != null">
+		   mobile,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="prizeCode != null">
+	       #{prizeCode},
+	    </if>
+		<if test="code != null">
+	       #{code},
+	    </if>
+		<if test="stbId != null">
+	       #{stbId},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="prize != null">
+	       #{prize},
+	    </if>
+		<if test="prizeTxt != null">
+	       #{prizeTxt},
+	    </if>
+		<if test="mobile != null">
+	       #{mobile},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityLotteryDO">
+        update activity_lottery
+        <trim prefix="set">
+		    <if test="prizeCode != null">
+		        prize_code = #{prizeCode},
+		    </if> 
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="stbId != null">
+		        stb_id = #{stbId},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="prize != null">
+		        prize = #{prize},
+		    </if> 
+		    <if test="prizeTxt != null">
+		        prize_txt = #{prizeTxt},
+		    </if> 
+		    <if test="mobile != null">
+		        mobile = #{mobile},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_lottery
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_lottery
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+     
+    <!-- 地区中奖分布查询 -->
+     <select id="queryByRegionCountAllToall" resultType="int" parameterType="ActivityLotteryQuery">
+		 select count(*) from (select replace(ifnull(region,''),':8080','') region,code from activity_lottery 
+           <include refid="queryCondition" />
+          group by region,code HAVING region !='') b;
+	  </select> 
+    
+    <select id="queryByRegionCountAll" resultMap="queryByRegionCountAllResultMap" parameterType="ActivityLotteryQuery">
+       select b.name mobile,a.code, a.count,a.region from 
+		(select  replace(ifnull(region,''),':8080','') region,count(region) count,code from activity_lottery 
+         <include refid="queryCondition" />
+        group by region,code HAVING region !=''
+        limit #{pageFirstItem}, #{pageSize} ) a
+         Left outer join activity_introduction b on a.code=b.code 
+    </select>
+    
+        <select id="queryByRegionCountAllToExcel" resultMap="queryByRegionCountAllResultMap" parameterType="ActivityLotteryQuery">
+        select b.name mobile,a.code, a.count,a.region from 
+		(select  replace(ifnull(region,''),':8080','') region,count(region) count,code from activity_lottery 
+         <include refid="queryCondition" />
+        group by region,code HAVING region !=''  ) a
+         Left outer join activity_introduction b on a.code=b.code 
+    </select>
+    
+    <!--1,2,3等级查询  -->
+    
+    <select id="queryByRegionCount" resultType="int" parameterType="ActivityLotteryQuery">
+		select count(*) from (select replace(ifnull(region,''),':8080','') region,count(1) count from activity_lottery 
+        <include refid="queryCondition" />
+        group by region,prize,prize_txt,code HAVING region !='') b;
+	  </select> 
+    
+    
+    <select id="queryByRegion" resultMap="queryByRegionResultMap" parameterType="ActivityLotteryQuery">
+    
+      select b.name mobile,a.code, a.count,a.region,prize,prize_txt from 
+		(select replace(ifnull(region,''),':8080','') region,prize,prize_txt ,code,count(1) count from  activity_lottery
+           <include refid="queryCondition" />
+      group by region,prize,prize_txt,code HAVING region !=''
+      order by region,prize
+      limit #{pageFirstItem}, #{pageSize} ) a
+         Left outer join activity_introduction b on a.code=b.code
+      
+    </select>
+	
+    	
+	<select id="queryByMobile" resultMap="BaseResultMap" parameterType="ActivityLotteryQuery">
+		select * from activity_lottery x
+			where x.code = #{code} and ISNULL(mobile);
+	</select> 
+    
+   <!-- 
+     <select id="queryByRegionToExcel" resultMap="queryByRegionResultMap" parameterType="ActivityLotteryQuery">
+        select *,count(1) count from (
+        select  replace(ifnull(region,''),':8080','') region,prize,prize_txt ,code
+         from activity_lottery
+         <include refid="queryCondition" />
+      ) a group by region,prize,prize_txt
+      order by region,prize;
+    </select>
+     -->
+     <select id="queryByRegionToExcel" resultMap="queryByRegionResultMap" parameterType="ActivityLotteryQuery">
+        select b.name mobile,a.code, a.count,a.region,prize,prize_txt from 
+		(select replace(ifnull(region,''),':8080','') region,prize,prize_txt ,code,count(1) count from  activity_lottery
+           <include refid="queryCondition" />
+      group by region,prize,prize_txt,code HAVING region !=''
+      order by region,prize ) a
+         Left outer join activity_introduction b on a.code=b.code
+    </select>
+     
+     
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_lottery
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityLotteryQuery">
+		select count(*) from activity_lottery
+		<include refid="queryCondition" />
+	</select> 
+	
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityLotteryQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_lottery
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+    
+    <select id="queryByNoPage" resultMap="BaseResultMap" parameterType="ActivityLotteryQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_lottery
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		
+	</select>
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE activity_lottery 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	</update>
+    
+</mapper>

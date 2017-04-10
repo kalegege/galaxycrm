@@ -1,0 +1,26 @@
+#macro(digui $org)
+	<ul>
+	#foreach($item in $org)
+		<li><a href="javascript:" onclick="$.bringBack({id:'$item.getId()', name:'$item.getName()'})">$item.getName()</a>
+		#if($item.childList.size() > 0)
+			#digui($item.childList)
+		#end
+		</li>
+	#end
+	</ul>
+#end
+<div class="pageContent">
+	<div class="pageFormContent" layoutH="58">
+		<ul class="tree expand">
+			<li><a href="javascript:">根节点</a>
+				#digui($org)
+			</li>
+		</ul>
+	</div>
+	
+	<div class="formBar">
+		<ul>
+			<li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
+		</ul>
+	</div>
+</div>

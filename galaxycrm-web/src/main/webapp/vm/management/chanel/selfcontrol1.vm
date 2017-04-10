@@ -1,0 +1,55 @@
+<div class="pageContent">
+	<form method="post" action="${basePath}/management/chanel/seupdateteam" class="pageForm required-validate" onsubmit="javascript:self_confirm();return validateCallback(this, navTabAjaxDone);">
+		<div class="pageFormContent" layoutH="56">
+		<fieldset>
+			<legend>频道推荐运营</legend>
+			<p>
+				<label>频道名称：</label>
+				<input type="hidden" class="required" name="id" value="$!{selfDatas.id}" />
+				<input type="text" class="required" name="chName" value="$!{selfDatas.chName}" />
+			</p>
+			<p>
+				<label>频道号：</label>
+				<input type="text" class="required" name="chNo" value="$!{selfDatas.chNo}" />
+			</p>
+			
+			<dl>
+			<dt>频道图片上传按钮：</dt>
+			<input type="hidden" readonly="readonly" value="$!{selfDatas.chPicture}" name="chPicture"/>
+			<input type="hidden" readonly="readonly" value="$!{selfDatas.chImage}" name="chImage"/>
+			<div class="picture" style="margin: 0 10px" layoutH="50">
+			<input id="testFileInput" type="file" name="image" 
+			uploaderOption="{
+				swf:'${basePath}/styles/uploadify/scripts/uploadify.swf?',
+				uploader:'${basePath}/management/chanel/upload',
+				formData:{PHPSESSID:'xxx', ajax:1},
+				buttonText:'请选择文件',
+				button_image_url:'${basePath}/styles/uploadify/img/back.jpg',
+				fileSizeLimit:'12KB',
+				fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+				fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+				auto:true,
+				multi:false,
+				debug:true,
+				onUploadSuccess:function(file, data, respone){$('#showspan').text(file.name);$('#showimg').attr('src',data);$('input[name=chImage]').val(file.name);$('input[name=chPicture]').val(data);console.log(file);console.log(data);console.log(respone);},
+			}"/>
+			</div>
+			</dl>
+			<span class="info">(大小12K以内)</span>
+			<p>
+			<label>查看图片：</label>
+			<a  href="javascript:label_onclick();"><span id="showspan">$!{selfDatas.chImage}</span></a>
+			</p>
+			<div id="picturereview"style="display:none;height:230px;width:300px;">
+				<img name="showimg" id="showimg" src="$!{selfDatas.chPicture}" alt="预览图片" /> 
+			</div>
+		</fieldset>	
+		</div>
+		<div class="formBar">
+				<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit"  >发布到前台</button></div></div></li>
+				##<li><a class="delete" target="ajaxTodo"   href="${basePath}/management/chanel/seupdateteam" title="是否发布到前台?" ><span>发布到前台</span></a></li>
+				</ul>
+		</div>
+	</form>
+</div>	

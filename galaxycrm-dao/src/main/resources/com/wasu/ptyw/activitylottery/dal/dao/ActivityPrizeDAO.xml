@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.activitylottery.dal.dao.ActivityPrizeDAO">
+    <resultMap type="ActivityPrizeDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="code" property="code" javaType="java.lang.String" />
+		<result column="region" property="region" javaType="java.lang.String" />
+		<result column="name" property="name" javaType="java.lang.String" />
+		<result column="prize" property="prize" javaType="java.lang.Integer" />
+		<result column="prize_txt" property="prizeTxt" javaType="java.lang.String" />
+		<result column="count_day" property="countDay" javaType="java.lang.Float" />
+		<result column="count" property="count" javaType="java.lang.Integer" />
+		<result column="use_count_day" property="useCountDay" javaType="java.lang.Integer" />
+		<result column="use_count" property="useCount" javaType="java.lang.Integer" />
+		<result column="probability" property="probability" javaType="java.lang.Float" />
+		<result column="status" property="status" javaType="java.lang.Integer" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	code,region,	name,prize,	prize_txt,	count_day,	count,	use_count_day,	use_count,	probability,	status,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		  <if test="name != null">
+		        and name = #{name} 
+		    </if>
+		    <if test="code != null">
+		        and code = #{code} 
+		    </if> 
+		    <if test="prize != null">
+		        and prize = #{prize} 
+		    </if> 
+		    <if test="prizeTxt != null">
+		        and prize_txt = #{prizeTxt} 
+		    </if> 
+		    <if test="countDay != null">
+		        and count_day = #{countDay} 
+		    </if> 
+		    <if test="count != null">
+		        and count = #{count} 
+		    </if> 
+		    <if test="useCountDay != null">
+		        and use_count_day = #{useCountDay} 
+		    </if> 
+		    <if test="useCount != null">
+		        and use_count = #{useCount} 
+		    </if> 
+		    <if test="probability != null">
+		        and probability = #{probability} 
+		    </if> 
+		    <if test="status != null">
+		        and status = #{status} 
+		    </if> 
+		    <if test="region != null">
+		        and region = #{region} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="ActivityPrizeDO" useGeneratedKeys="true" keyProperty="id">
+        insert into activity_prize (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="name != null">
+		   name,
+		</if>
+		<if test="code != null">
+		   code,
+		</if>
+		<if test="prize != null">
+		   prize,
+		</if>
+		<if test="prizeTxt != null">
+		   prize_txt,
+		</if>
+		<if test="countDay != null">
+		   count_day,
+		</if>
+		<if test="count != null">
+		   count,
+		</if>
+		<if test="useCountDay != null">
+		   use_count_day,
+		</if>
+		<if test="useCount != null">
+		   use_count,
+		</if>
+		<if test="probability != null">
+		   probability,
+		</if>
+		<if test="region != null">
+		   region,
+		</if>
+		<if test="status != null">
+		   status,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+	     <if test="name != null">
+	       #{name},
+	    </if>
+		<if test="code != null">
+	       #{code},
+	    </if>
+	   
+		<if test="prize != null">
+	       #{prize},
+	    </if>
+		<if test="prizeTxt != null">
+	       #{prizeTxt},
+	    </if>
+		<if test="countDay != null">
+	       #{countDay},
+	    </if>
+		<if test="count != null">
+	       #{count},
+	    </if>
+		<if test="useCountDay != null">
+	       #{useCountDay},
+	    </if>
+		<if test="useCount != null">
+	       #{useCount},
+	    </if>
+		<if test="probability != null">
+	       #{probability},
+	    </if>
+		<if test="region != null">
+	       #{region},
+	    </if>
+		<if test="status != null">
+	       #{status},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="ActivityPrizeDO">
+        update activity_prize
+        <trim prefix="set">
+          <if test="name != null">
+		        name = #{name},
+		    </if>
+		    <if test="code != null">
+		        code = #{code},
+		    </if> 
+		    <if test="region != null">
+		        region = #{region},
+		    </if> 
+		    <if test="prize != null">
+		        prize = #{prize},
+		    </if> 
+		    <if test="prizeTxt != null">
+		        prize_txt = #{prizeTxt},
+		    </if> 
+		    <if test="countDay != null">
+		        count_day = #{countDay},
+		    </if> 
+		    <if test="count != null">
+		        count = #{count},
+		    </if> 
+		    <if test="useCountDay != null">
+		        use_count_day = #{useCountDay},
+		    </if> 
+		    <if test="useCount != null">
+		        use_count = #{useCount},
+		    </if> 
+		    <if test="probability != null">
+		        probability = #{probability},
+		    </if> 
+		    <if test="status != null">
+		        status = #{status},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from activity_prize
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_prize
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from activity_prize
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="ActivityPrizeQuery">
+		select count(*) from activity_prize
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="ActivityPrizeQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_prize
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+	<select id="queryToExcel" resultMap="BaseResultMap" parameterType="ActivityPrizeQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from activity_prize
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		
+	</select>
+	
+    
+	<update id="updateStatusByIds" parameterType="java.util.Map">
+		UPDATE activity_prize 
+		SET status = #{status},gmt_modified =now()
+		WHERE id IN
+	  	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+	</update>
+    
+</mapper>

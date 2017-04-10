@@ -1,0 +1,3 @@
+test:<br/>
+$data
+$LC.get('project_name')

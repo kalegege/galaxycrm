@@ -1,0 +1,53 @@
+<script type="text/javascript">
+<!--
+// top
+jQuery(document).ready(function(){
+     
+    $(".deleteUserRole").click(function(){
+    	var userRoleId = $(this).attr("id").split("_")[1];
+		var userId = $(this).attr("id").split("_")[2];
+    	jQuery.ajax({
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            url: '${basePath}/management/security/user/delete/userRole/' + userRoleId+'/'+userId,
+            error: function() { 
+    	 			alertMsg.error('删除角色关联失败！');
+    			},
+    		success: function() { 
+    	    		// 删除已分配
+    	    		$("#userRoleRow_" + userRoleId).remove();
+    			}
+        });	
+    	
+    });
+    
+});
+//-->
+</script>
+<div class="pageContent" layoutH="0" >
+
+	<fieldset>
+		<legend>已分配角色</legend>
+		<table class="list" width="100%">
+			<thead>
+				<tr>
+					<th width="150">角色名称</th>
+					<th>优先级（数值越小，优先级越高）</th>
+				</tr>
+			</thead>
+			<tbody id="hasRoles">
+				#foreach($item in ${userRoles})
+				<tr id="userRoleRow_${item.id}">
+					<td>${item.role.name}</td>
+					<td>
+						<div style="float: left;line-height: 21px;margin: 0px 10px;width: 30px;">${item.priority}</div>
+						<div class="button"><div class="buttonContent"><button id="submit_${item.id}_${item.userId}" class="deleteUserRole">删除关联</button></div></div>
+					</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+

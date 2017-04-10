@@ -1,0 +1,70 @@
+<h2 class="contentTitle">添加折扣</h2>
+<form method="post" action="${basePath}/management/security/bus/discount/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>名称：</dt>
+			<dd>
+				<input type="text" name="name" class="required"  size="32" maxlength="32"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>优先级：</dt>
+			<dd>
+				<input type="text" name="priority" class="required digits" size="2" value="99" maxlength="2"/>
+				<span class="info">&nbsp;&nbsp;默认:99</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>折扣价：</dt>
+			<dd>
+				<input type="text" name="price" size="10" maxlength="10"/>
+				<span class="info">&nbsp;&nbsp;(单位分)</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>折扣百分比：</dt>
+			<dd>
+				<input type="text" name="percent" class="digits" size="10" maxlength="3" max="100" min="0" value="" />
+				<span class="info">&nbsp;&nbsp;(0~100)</span>
+			</dd>
+		</dl>	
+		<dl>
+			<dt>图片地址：</dt>
+			<dd>
+				<input type="text" name="pic" size="32" maxlength="255" value="" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt>中奖概率%：</dt>
+			<dd>
+				<input type="text" name="rate" class="digits" size="10" maxlength="3" max="100" min="-1" value="" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt>奖品总数：</dt>
+			<dd>
+				<input type="text" name="count" size="10" maxlength="10"  min="-1" value="" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt>描述：</dt>
+			<dd>
+				<input type="text" name="des"  size="32" maxlength="255" />
+			</dd>
+		</dl>	
+		<p>
+			<label>状态:</label>
+			<select name="status">
+				<option value="0" >下线</option>
+				<option value="1" >上线</option>
+			</select>
+		</p>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

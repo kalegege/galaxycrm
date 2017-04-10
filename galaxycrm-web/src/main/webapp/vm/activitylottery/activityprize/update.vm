@@ -1,0 +1,89 @@
+<script  type="text/javascript">
+      
+ </script>
+
+
+<h2 class="contentTitle">修改抽奖配置信息</h2>
+<form method="post" action="${basePath}/activity/activityprize/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<input type="hidden" name="id" value="${item.id}"/>
+	<div class="pageFormContent" layoutH="97">
+	  <dl>
+			<dt>活动名称：</dt>
+			<dd>
+				<input type="text" name="name" class="required"  size="32"  value="$!{item.name}"/>
+			</dd>
+		</dl>
+	
+	
+		<dl>
+			<dt>活动编号：</dt>
+			<dd>
+				<input type="text" name="code" class="required"  size="32"  value="$!{item.code}"/>
+			</dd>
+		</dl>
+	
+	
+		<dl>
+			<dt>奖品地区：</dt>
+			<dd>
+				<input type="text" name="region" class="required"  size="32"  value="$!{item.region}"/>
+			</dd>
+		</dl>
+		
+		
+		<dl>
+			<dt>奖品等级：</dt>
+			<dd>
+				<input type="text" name="prize" class="required"  size="32"   value="$!{item.prize}"/>
+			</dd>
+		</dl>
+		
+
+		<dl>
+			<dt>奖品名称：</dt>
+			<dd>
+				<input type="text" name="prizeTxt" class="required"  size="32"   value="$!{item.prizeTxt}"/>
+			</dd>
+		</dl>
+		
+		
+		
+		<dl>
+			<dt>奖品总数量：</dt>
+			<dd>
+				<input type="text" name="count" class="required"  size="32"   value="$!{item.count}"/>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>每天分配奖品数量：</dt>
+			<dd>
+				<input type="text" name="countDay" class="required" value="$!{item.countDay}"/>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt>中奖概率：</dt>
+			<dd>
+				<input type="text" name="probability" class="required"  size="32"   value="$!{item.probability}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>状态：</dt>
+			<dd>
+				<input type="text" name="status" class="required"  size="32"   value="$!{item.status}"/>
+			</dd>
+		</dl>
+	     
+	     
+       
+				
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

@@ -1,0 +1,53 @@
+<h2 class="contentTitle">uploadify多文件上传</h2>
+
+<style type="text/css" media="screen">
+	.my-uploadify-button {
+		background: none;
+		border: none;
+		text-shadow: none;
+		border-radius: 0;
+	}
+	.uploadify:hover .my-uploadify-button {
+		background: none;
+		border: none;
+	}
+	.fileQueue {
+		width: 400px;
+		height: 150px;
+		overflow: auto;
+		border: 1px solid #E5E5E5;
+		margin-bottom: 10px;
+	}
+</style>
+
+<div class="pageContent" style="margin: 0 10px" layoutH="50">
+
+	<input id="testFileInput" type="file" name="mFile" uploaderOption="{
+			swf:'${basePath}/styles/uploadify/scripts/uploadify.swf',
+			uploader:'${basePath}/api/image/upload',
+			formData:{PHPSESSID:'xxx', ajax:1},
+			buttonText:'请选择文件',
+			fileSizeLimit:'2000KB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+			queueID:'fileQueue',
+			multi:true,
+			onUploadSuccess:uploadifySuccess,
+			onQueueComplete:uploadifyQueueComplete
+		}" />
+
+	<div id="fileQueue" class="fileQueue"></div>
+
+	<input type="image" src="${basePath}/styles/uploadify/img/upload.jpg" onclick="$('#testFileInput2').uploadify('upload', '*');" />
+	<input type="image" src="${basePath}/styles/uploadify/img/cancel.jpg" onclick="$('#testFileInput2').uploadify('cancel', '*');" />
+
+	<div class="divider"></div>
+	<p style="margin:10px"><a href="http://www.uploadify.com/documentation/" target="_blank">Uploadify 在线文档</a></p>
+
+	<script type="text/javascript">
+		function uploadifySuccess(file, data, respone) {
+			alert(data + "---" + respone);
+		}
+	</script>
+</div>

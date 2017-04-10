@@ -1,0 +1,59 @@
+##搜索
+#set ($Action=${basePath}+'/management/chanel/searchsactor')
+##搜索
+#set ($addAction=${basePath}+'/management/chanel/addactor')
+<form id="pagerForm" method="post" action="$Action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="isFirst" value="false"/>
+	<input type="hidden" name="teamid" value=${teamid}/>
+</form>
+
+<form method="post" action="$Action" onsubmit="$('#keywords').val(encodeURI($('#searchactor1').val())); return dwzSearch(this, 'dialog');">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>艺人姓名：</label>
+					<input type="text" id="searchactor1" value="$!{keywords}"/>
+					<input type="hidden" id="keywords" name="keywords" value=""/>
+					<input type="hidden" name="actorid" value=${actorid}/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+					<a class="btnSelect" href="javascript:callBackActor()" title="查找带回">选择</a>
+					##<li><a class="add" href="$addAction"  id="addactor" onclick="javascript:buttonaddactors_onclick('${basePath}/management/chanel/addactor');"  target="dialog" rel="lookup2organization" mask="true" width="650" height="500"><span>确定</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	<table class="table"  width="100%">
+		<thead>
+			<tr>
+				<th width="40"><label><input type="checkbox" class="checkboxCtrl" group="itemid" />全选</label></th>
+				<th width="100">电视剧</th>
+				<th width="100">电影</th>
+				<th width="150">综艺</th>
+				<th width="100">资讯</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${actorDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td><input type="checkbox" name="itemid" value="${item.id}"></td>
+				<td>$!{item.aName}</td>
+				<td>$!{item.bName}</td>
+				<td>$!{item.cName}</td>
+				<td>$!{item.dName}</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+</div>

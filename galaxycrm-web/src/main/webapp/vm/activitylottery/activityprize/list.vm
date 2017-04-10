@@ -1,0 +1,116 @@
+<script>
+$(function(){
+    var params;
+    $("#pagerForm2 select[name='keywords']").change(function(){
+       params=$(this).children('option:selected').val();
+       
+    });
+   
+    $("#a5").click(function(){
+    params=$("#pagerForm2 select[name='keywords']").val();
+    document.location = "/galaxycrm/activity/activityprize/exportActivityLotterySubmit?keywords=" + params;
+ });
+
+});
+</script>
+
+<form id="pagerForm" method="post" action="${basePath}/activity/activityprize/list">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" />
+	 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+</form>
+
+<form  id="pagerForm2" method="post" action="${basePath}/activity/activityprize/list" onsubmit="return navTabSearch(this)">
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>活动编号：</label>
+					<select name="keywords">
+						<option value="">请选择活动名称</option>
+						#foreach($item in $!{activityIntroductionDatas})
+						<option value="$!{item.code}" #if($item.code == $status) selected #end >$!item.name</option>
+						#end
+					</select>
+				</li>
+				
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("HudongFtpGroupManager:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="530" height="380" href="${basePath}/activity/activityprize/create" ><span>添加</span></a></li>
+			#end
+			#if($shiro.hasPermission("HudongFtpGroupManager:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="530" height="600" href="${basePath}/activity/activityprize/update/{slt_id}" ><span>编辑</span></a></li>
+			#end
+			#if($shiro.hasPermission("HudongFtpGroupManager:delete"))
+				<li><a class="delete" target="ajaxTodo" href="${basePath}/activity/activityprize/delete/{slt_id}" title="确认要删除该奖品?"><span>删除</span></a></li>
+			#end
+			#if($shiro.hasPermission("HudongFtpGroupManager:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="530" height="600" href="${basePath}/activity/activityprize/generation/{slt_id}" ><span>生成奖品信息</span></a></li>
+			#end
+			#if($shiro.hasPermission("ActivityIntroduction:save"))
+				<li><a class="add" id="a5" rel="lookup2organization" mask="true" width="530" height="380" ><span>导出</span></a></li>
+			#end
+			#if($shiro.hasPermission("ActivityIntroduction:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="530" height="380" href="${basePath}/activity/activityprize/addExl" ><span>批量导入奖品</span></a></li>
+			#end
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr>
+				<th width="40">ID</th>
+				<th width="80">活动名称</th>
+				<th width="80">活动编号</th>
+				<th width="200">奖品地区</th>
+				<th width="40">奖品等级</th>
+				<th width="80">奖品名称</th>
+				<th width="80">每天分配奖品数量</th>
+				<th width="80">奖品总数量</th>
+				<th width="80">每天已使用数量</th>
+				<th width="80">已使用奖品总数量</th>
+				<th width="80">中奖概率</th>
+				<th width="40">状态</th>
+				<th width="150" orderField="gmt_create" class="#if($page.orderField == 'gmt_create') $page.orderDirection #else ''#end">创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($item in ${datas})
+			<tr target="slt_id" rel="${item.id}">
+				<td>$!{item.id}</td>
+				<td>$!{item.name}</td>
+				<td>$!{item.code}</td>
+				<td>$!{item.region}</td>
+				<td>$!{item.prize}</td>
+				<td>$!{item.prizeTxt}</td>
+				<td>$!{item.countDay}</td>
+				<td>$!{item.count}</td>
+				<td>$!{item.useCountDay}</td>
+			    <td>$!{item.useCount}</td>
+			    <td>$!{item.probability}</td>
+			    <td>$!{item.status}</td>
+				<td>$dateUtil.format($!{item.gmtCreate},"yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>

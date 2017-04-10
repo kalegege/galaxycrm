@@ -1,0 +1,56 @@
+<h2 class="contentTitle">编辑频道分组信息</h2>
+<form method="post" action="${basePath}/management/chanel/seupdateteam" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			##<dt>ID：</dt>
+			<dd>
+				<input type="hidden" name="id" class="required" value="$!{item.id}"/>  
+			</dd>
+		</dl>
+		<dl>
+			<dt>频道号：</dt>
+			<dd>
+				<input type="text" name="chId" class="required" value="$!{item.chId}"/>  
+			</dd>
+		</dl>
+		<dl>
+			<dt>频道名称：</dt>
+			<dd>
+				<input type="text" name="chName" class="required" value="$!{item.chName}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>点播节目选择：</dt>
+			<dd>
+				<input type="text" name="chPicture" class="required" value="$!{item.chPicture}"/>  
+			</dd>
+			<a class="add" target="dialog" rel="raddmenu" mask="true" width="650" height="500" href="$addMenuAction" ><span>添加</span></a>
+		</dl>
+		<dl>
+			<dt>上线标志:</dt>
+			<dd><select name="chStatus" >
+				<option value="0" >0</option>
+				<option value="1" #if($!{item.chStatus} == 1) selected #end>1</option>
+			</select></dd>
+		</dl>
+		<dl>
+			<dt>频道别名：</dt>
+			<dd>
+				<input type="text" name="chAlias" class="required" value="$!{item.chAlias}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>频道优先级：</dt>
+			<dd>
+				<input type="text" name="chWeight" value="$!{item.chWeight}"/>  
+			</dd>
+		</dl>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

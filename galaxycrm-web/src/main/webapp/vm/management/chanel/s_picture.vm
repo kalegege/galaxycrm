@@ -1,0 +1,20 @@
+##插入
+#set($addAction=${basePath}+'/management/chanel/selfcontrol/picture')
+<h2 class="contentTitle">新增推荐信息</h2>
+<form method="post" action="${basePath}/management/chanel/seinsertteam"  enctype="multipart/form-data" class="pageForm required-validate" onsubmit="return iframeCallback(this,dialogAjaxDone);" novalidate="novalidate">
+	<div class="pageFormContent" layoutH="97">
+		<dl>
+			<dt>频道图片：</dt>
+			<dd>
+				<input type="file" name="fileToUpload" class="valid"/>  
+			</dd>
+		</dl>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>

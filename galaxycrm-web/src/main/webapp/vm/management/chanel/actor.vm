@@ -1,0 +1,93 @@
+##搜索请求
+#set($action=${basePath}+'/management/chanel/recommend/actor')
+##删除
+#set($deleteAction=${basePath}+'/management/chanel/delete/actor/'+'{item_id}')
+##插入
+#set($addAction=${basePath}+'/management/chanel/addactor')
+##编辑
+#set($editAction=${basePath}+'/management/chanel/editactor/'+'{item_id}')
+##搜索
+#set ($searchAction=${basePath}+'/management/chanel/searchsactor')
+#set ($updateAction=${basePath}+'/management/chanel/updatePublishActor/'+'{item_id}')
+<form id="pagerForm" method="post" action="$action">
+	<input type="hidden" name="pageNum" value="${page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}" /> 
+	<input type="hidden" name="keywords" value="$!{keywords}"/>
+	<input type="hidden" name="status" value="$!{status}" />
+</form>
+
+
+<div class="pageContent">
+
+		<div class="panelBar">
+		<ul class="toolBar">
+			#if($shiro.hasPermission("Actors:save"))
+				<li><a class="add" target="dialog" rel="lookup2organization" mask="true" width="650" height="500" href="$addAction" ><span>新增</span></a></li>
+			#end
+			#if($shiro.hasPermission("Actors:edit"))
+				<li><a class="edit" target="dialog" rel="lookup2organization" mask="true" width="600" height="500" href="$editAction" ><span>编辑</span></a></li>
+			#end
+			#if($shiro.hasPermission("Actors:delete"))
+				<li><a class="delete" target="ajaxTodo" href="$deleteAction" title="确认要删除?"><span>删除</span></a></li>
+			#end
+				<li><input type="text" id="searchactor"></li>
+				<li><a class="add" href="$searchAction"  id="searchersactor" onclick="javascript:buttonssearchactor_onclick('${basePath}/management/chanel/searchsactor');"  target="dialog" rel="lookup2organization" mask="true" width="650" height="500"><span>搜索</span></a></li>
+		</ul>
+			<div class="buttonActive" ><a href="$updateAction" target="ajaxTodo" title="确定要发布到前台吗?"><span>发布到前台</span></a></div>
+	   
+	</div>
+	
+<table class="table" layoutH="76" width="100%">
+		<thead>
+			<tr>
+				<th width="40"></th>
+				<th width="40">ID</th>
+				<th width="80">艺人姓名</th>
+				<th width="40">资产</th>
+				<th width="100">头像图片链接</th>
+				<th width="100">海报图片链接</th>
+				<th width="100">背景图片链接</th>
+				<th width="80">是否推荐到首页</th>
+			</tr>
+		</thead>
+		<tbody class="image">
+			#foreach($item in ${actorDatas})
+			<tr target="item_id" rel="${item.id}">
+				<td><input type="radio" name="filmIds" value="{id:'${item.id}',image:'${item.image}',poster:'${item.poster}'}"></td>
+				<td>$!{item.id}</td>
+				<td>$!{item.name}<input type="hidden" id="name${item.id}" value="$!{item.name}"/></td>
+				<td><a class="button" href="$searchAction" id="search${item.id}" onclick="javascript:buttonsaddactor_onclick('${basePath}/management/chanel/searchactor',${item.id});"  target="dialog" rel="dlg_page7"><span>查询</span></a></td>
+		        <td><a href=$!{item.image} target="_blank"><span>$!{item.imageName}</span></a></td>
+				<td><a href=$!{item.poster} target="_blank"><span>$!{item.posterName}</span></a></td>
+				<td><a href=$!{item.background} target="_blank"><span>$!{item.backgroundName}</span></a></td>
+				<td> #if($!{item.status} == 1) 是  #else 否  #end</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	<div id="imagereview"style="display:none;position: absolute; left: 30px; top: 50px;border: 1px solid #000;background:#fff">
+		<img id="imageshow" src="" alt="预览图片" /> 
+	</div>
+	<div id="posterreview"style="display:none;position: absolute; right: 30px; top: 50px;border: 1px solid #000;background:#fff">
+		<img id="postershow" src="" alt="预览图片" /> 
+	</div>
+	
+	<div id="backgroundreview"style="display:none;position: absolute; right: 300px; top: 200px;border: 1px solid #000;background:#fff">
+		<img id="backgroundshow" src="" alt="预览图片" /> 
+	</div>
+	<!-- 分页 -->
+	#parse("/management/_frag/pager/panelBar.vm")
+</div>
+
+<script type="text/javascript">
+function dbltable(target,rel){
+	if(target == 'film_id'){
+		var url="$editAction2";
+		url = url + rel;
+		var options = { max:false, mask:true, width: 600, height: 500,maxable:true,minable:true,fresh:true,resizable:true,drawable:true};
+		$.pdialog.open(url,"lookup2organization", "编辑", options);
+	} 
+}
+</script>

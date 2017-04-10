@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wasu.ptyw.galaxycrm.dal.dao.CrmRolePermissionDAO">
+    <resultMap type="CrmRolePermissionDO" id="BaseResultMap">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="role_id" property="roleId" javaType="java.lang.Long" />
+		<result column="permission" property="permission" javaType="java.lang.String" />
+		<result column="gmt_create" property="gmtCreate" javaType="java.util.Date" />
+		<result column="gmt_modified" property="gmtModified" javaType="java.util.Date" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+	id,	role_id,	permission,	gmt_create,	gmt_modified
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        WHERE id = #{id}
+    </sql>
+    
+    <sql id="queryCondition">    	
+		<trim prefix="where" prefixOverrides="and"> 
+		    <if test="roleId != null">
+		        and role_id = #{roleId} 
+		    </if> 
+		    <if test="permission != null">
+		        and permission = #{permission} 
+		    </if> 
+		</trim>
+	</sql>
+	
+    <insert id="insert" parameterType="CrmRolePermissionDO" useGeneratedKeys="true" keyProperty="id">
+        insert into crm_role_permission (
+		<if test="id != null">
+		   id,
+		</if>
+		<if test="roleId != null">
+		   role_id,
+		</if>
+		<if test="permission != null">
+		   permission,
+		</if>
+		   gmt_create, gmt_modified		
+        ) values (
+		<if test="id != null">
+	       #{id},
+	    </if>
+		<if test="roleId != null">
+	       #{roleId},
+	    </if>
+		<if test="permission != null">
+	       #{permission},
+	    </if>
+		   now(), now()
+        )
+    </insert>
+   
+    <update id="update" parameterType="CrmRolePermissionDO">
+        update crm_role_permission
+        <trim prefix="set">
+		    <if test="roleId != null">
+		        role_id = #{roleId},
+		    </if> 
+		    <if test="permission != null">
+		        permission = #{permission},
+		    </if> 
+			GMT_MODIFIED = now()
+        </trim>        
+        <include refid="Base_Where_Clause" />
+    </update>    
+   
+    <delete id="deleteById">
+        delete from crm_role_permission
+        <include refid="Base_Where_Clause" />
+    </delete>
+    
+    <select id="getById" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from crm_role_permission
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <select id="getByIds" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from crm_role_permission
+        WHERE id IN
+	  	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	  	</foreach>
+    </select>   
+    
+    <select id="queryCount" resultType="int" parameterType="CrmRolePermissionQuery">
+		select count(*) from crm_role_permission
+		<include refid="queryCondition" />
+	</select> 
+	
+	<select id="query" resultMap="BaseResultMap" parameterType="CrmRolePermissionQuery">
+		select 
+        	<include refid="Base_Column_List" />
+        from crm_role_permission
+			<include refid="queryCondition" />
+		<if test="orderBy != null">
+	        order by ${orderBy}	
+	    </if> 	
+		limit #{pageFirstItem}, #{pageSize}
+	</select>
+	
+	<delete id="deleteByRoleId">
+        delete from crm_role_permission
+        WHERE role_id = #{roleId}
+    </delete>
+    
+    
+</mapper>
